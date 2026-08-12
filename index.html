@@ -1,223 +1,667 @@
 <!DOCTYPE html>
 <html lang="hi">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Family Connect</title>
+<title>Family Connect</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<!-- PeerJS -->
+<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
-        body {
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0f172a, #1e3a8a);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 20px;
-        }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-        .container {
-            width: 100%;
-            max-width: 430px;
-            background: rgba(255, 255, 255, 0.10);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 30px 22px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-        }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+}
 
-        .logo {
-            font-size: 55px;
-            margin-bottom: 10px;
-        }
+header {
+  padding: 18px;
+  text-align: center;
+  background: #172554;
+}
 
-        h1 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
+header h1 {
+  margin: 0;
+}
 
-        .subtitle {
-            color: #dbeafe;
-            margin-bottom: 28px;
-            line-height: 1.5;
-        }
+#status {
+  margin-top: 7px;
+  color: #86efac;
+  font-size: 14px;
+}
 
-        input {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            outline: none;
-        }
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 15px;
+}
 
-        button {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            margin-top: 10px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.videos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
 
-        .video {
-            background: #22c55e;
-            color: white;
-        }
+.videoBox {
+  background: #020617;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  min-height: 250px;
+}
 
-        .audio {
-            background: #2563eb;
-            color: white;
-        }
+video {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  object-fit: cover;
+  background: #000;
+}
 
-        .copy {
-            background: #f59e0b;
-            color: white;
-        }
+.label {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  background: rgba(0,0,0,.65);
+  padding: 7px 10px;
+  border-radius: 8px;
+  z-index: 2;
+}
 
-        button:active {
-            transform: scale(0.98);
-        }
+.controls {
+  display: grid;
+  gap: 10px;
+  margin-top: 15px;
+}
 
-        .room {
-            margin-top: 22px;
-            padding: 14px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 12px;
-            word-break: break-all;
-            font-size: 14px;
-            color: #bfdbfe;
-        }
+input {
+  width: 100%;
+  padding: 15px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 16px;
+}
 
-        .status {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #bbf7d0;
-        }
-    </style>
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.call {
+  background: #22c55e;
+  color: white;
+}
+
+.audio {
+  background: #2563eb;
+  color: white;
+}
+
+.mute {
+  background: #f59e0b;
+  color: white;
+}
+
+.camera {
+  background: #7c3aed;
+  color: white;
+}
+
+.end {
+  background: #dc2626;
+  color: white;
+}
+
+.copy {
+  background: #475569;
+  color: white;
+}
+
+.myid {
+  margin-top: 15px;
+  background: #1e293b;
+  padding: 12px;
+  border-radius: 10px;
+  word-break: break-all;
+}
+
+.share {
+  margin-top: 15px;
+  background: #0c4a6e;
+  padding: 15px;
+  border-radius: 10px;
+  word-break: break-all;
+}
+
+.hidden {
+  display: none;
+}
+
+@media(max-width:700px) {
+  .videos {
+    grid-template-columns: 1fr;
+  }
+
+  .videoBox,
+  video {
+    min-height: 230px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="container">
+<header>
+  <h1>👨‍👩‍👧‍👦 Family Connect</h1>
+  <div id="status">Connecting...</div>
+</header>
 
-        <div class="logo">👨‍👩‍👧‍👦</div>
+<div class="container">
 
-        <h1>Family Connect</h1>
+  <div class="videos">
 
-        <div class="subtitle">
-            अपने परिवार या दोस्तों से<br>
-            Video या Audio Call से जुड़ें
-        </div>
-
-        <input type="text" id="name" placeholder="अपना नाम लिखें" autocomplete="name">
-
-        <button class="video" onclick="startCall('video')">
-            📹 Video Call
-        </button>
-
-        <button class="audio" onclick="startCall('audio')">
-            🎙️ Audio Call
-        </button>
-
-        <button class="copy" onclick="copyLink()">
-            🔗 Link Copy करें
-        </button>
-
-        <div class="room" id="roomLink">
-            आपका Room Link यहाँ दिखाई देगा
-        </div>
-
-        <div class="status" id="status">
-            Ready to Connect
-        </div>
-
+    <div class="videoBox">
+      <div class="label">📷 आपका Camera</div>
+      <video id="localVideo" autoplay muted playsinline></video>
     </div>
 
-    <script>
+    <div class="videoBox">
+      <div class="label">👤 सामने वाला</div>
+      <video id="remoteVideo" autoplay playsinline></video>
+    </div>
 
-        // Unique room ID
-        function createRoomID() {
-            return Math.random()
-                .toString(36)
-                .substring(2, 10)
-                .toUpperCase();
-        }
+  </div>
 
-        // Create/share room
-        function startCall(type) {
+  <div class="controls">
 
-            const name = document.getElementById("name").value.trim();
+    <input
+      id="name"
+      type="text"
+      placeholder="अपना नाम लिखें"
+    >
 
-            if (!name) {
-                alert("कृपया पहले अपना नाम लिखें।");
-                return;
-            }
+    <input
+      id="remoteId"
+      type="text"
+      placeholder="सामने वाले का Room ID"
+    >
 
-            const room = createRoomID();
+    <button class="call" onclick="startVideoCall()">
+      📹 Video Call
+    </button>
 
-            const baseURL =
-                window.location.origin +
-                window.location.pathname;
+    <button class="audio" onclick="startAudioCall()">
+      🎙️ Audio Call
+    </button>
 
-            const link =
-                baseURL +
-                "?room=" +
-                room +
-                "&type=" +
-                type;
+    <button class="mute" onclick="toggleMute()">
+      🔇 Mic Mute
+    </button>
 
-            document.getElementById("roomLink").textContent = link;
+    <button class="camera" onclick="toggleCamera()">
+      📷 Camera ON/OFF
+    </button>
 
-            document.getElementById("status").textContent =
-                type === "video"
-                    ? "📹 Video Room तैयार है"
-                    : "🎙️ Audio Room तैयार है";
+    <button class="end" onclick="endCall()">
+      📞 Call End
+    </button>
 
-            navigator.clipboard.writeText(link)
-                .then(() => {
-                    alert(
-                        "Room Link तैयार है और Copy हो गया है।\n\n" +
-                        "अब यह Link परिवार या दोस्त को भेज सकते हैं।"
-                    );
-                })
-                .catch(() => {
-                    alert("Room Link तैयार है। इसे Copy करके भेजें।");
-                });
-        }
+    <button class="copy" onclick="copyRoomID()">
+      🔗 अपना Room ID Copy करें
+    </button>
 
-        // Copy existing link
-        function copyLink() {
+  </div>
 
-            const link =
-                document.getElementById("roomLink").textContent;
+  <div class="myid">
+    <b>आपका Room ID:</b>
+    <span id="myId">Connecting...</span>
+  </div>
 
-            if (!link || link.includes("यहाँ दिखाई देगा")) {
-                alert("पहले Video Call या Audio Call दबाएँ।");
-                return;
-            }
+  <div class="share">
+    <b>🔗 Share Link:</b>
+    <div id="shareLink">Preparing...</div>
 
-            navigator.clipboard.writeText(link);
+    <button
+      class="copy"
+      style="margin-top:10px;width:100%"
+      onclick="shareLink()">
+      📤 Family को Link भेजें
+    </button>
+  </div>
 
-            document.getElementById("status").textContent =
-                "✅ Link Copy हो गया";
-        }
+</div>
 
-    </script>
+<script>
+
+let peer;
+let localStream = null;
+let currentCall = null;
+
+const localVideo = document.getElementById("localVideo");
+const remoteVideo = document.getElementById("remoteVideo");
+const statusText = document.getElementById("status");
+const myIdText = document.getElementById("myId");
+const shareLinkText = document.getElementById("shareLink");
+
+
+// --------------------------------
+// Create Peer
+// --------------------------------
+
+peer = new Peer();
+
+peer.on("open", function(id) {
+
+  myIdText.textContent = id;
+
+  statusText.textContent = "✅ Ready to Connect";
+
+  createShareLink(id);
+
+});
+
+
+// --------------------------------
+// Incoming Call
+// --------------------------------
+
+peer.on("call", function(call) {
+
+  currentCall = call;
+
+  startLocalMedia(true).then(function(stream) {
+
+    call.answer(stream);
+
+    call.on("stream", function(remoteStream) {
+
+      remoteVideo.srcObject = remoteStream;
+
+      statusText.textContent =
+        "🟢 Call Connected";
+
+    });
+
+  }).catch(function(error) {
+
+    alert(
+      "Camera/Microphone permission नहीं मिली।\n\n" +
+      error.message
+    );
+
+  });
+
+});
+
+
+// --------------------------------
+// Start Video Call
+// --------------------------------
+
+async function startVideoCall() {
+
+  const remoteId =
+    document.getElementById("remoteId").value.trim();
+
+  if (!remoteId) {
+
+    alert("सामने वाले का Room ID डालें।");
+    return;
+
+  }
+
+  try {
+
+    const stream =
+      await startLocalMedia(true);
+
+    currentCall =
+      peer.call(remoteId, stream);
+
+    currentCall.on("stream", function(remoteStream) {
+
+      remoteVideo.srcObject =
+        remoteStream;
+
+      statusText.textContent =
+        "🟢 Video Call Connected";
+
+    });
+
+    currentCall.on("close", function() {
+
+      endCall();
+
+    });
+
+    currentCall.on("error", function(error) {
+
+      alert("Call Error: " + error.message);
+
+    });
+
+  } catch(error) {
+
+    alert(
+      "Camera/Microphone शुरू नहीं हो सके:\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+// --------------------------------
+// Start Audio Call
+// --------------------------------
+
+async function startAudioCall() {
+
+  const remoteId =
+    document.getElementById("remoteId").value.trim();
+
+  if (!remoteId) {
+
+    alert("सामने वाले का Room ID डालें।");
+    return;
+
+  }
+
+  try {
+
+    const stream =
+      await startLocalMedia(false);
+
+    currentCall =
+      peer.call(remoteId, stream);
+
+    currentCall.on("stream", function(remoteStream) {
+
+      remoteVideo.srcObject =
+        remoteStream;
+
+      statusText.textContent =
+        "🟢 Audio Call Connected";
+
+    });
+
+    currentCall.on("close", function() {
+
+      endCall();
+
+    });
+
+  } catch(error) {
+
+    alert(
+      "Microphone permission नहीं मिली:\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+// --------------------------------
+// Local Camera / Microphone
+// --------------------------------
+
+async function startLocalMedia(videoEnabled) {
+
+  if (localStream) {
+
+    localStream.getTracks().forEach(
+      track => track.stop()
+    );
+
+  }
+
+  localStream =
+    await navigator.mediaDevices.getUserMedia({
+
+      video: videoEnabled,
+
+      audio: true
+
+    });
+
+  localVideo.srcObject =
+    localStream;
+
+  return localStream;
+
+}
+
+
+// --------------------------------
+// Mute
+// --------------------------------
+
+function toggleMute() {
+
+  if (!localStream) {
+
+    alert("पहले Call शुरू करें।");
+    return;
+
+  }
+
+  const audioTracks =
+    localStream.getAudioTracks();
+
+  if (!audioTracks.length) return;
+
+  audioTracks[0].enabled =
+    !audioTracks[0].enabled;
+
+  statusText.textContent =
+    audioTracks[0].enabled
+    ? "🎙️ Mic ON"
+    : "🔇 Mic OFF";
+
+}
+
+
+// --------------------------------
+// Camera ON/OFF
+// --------------------------------
+
+function toggleCamera() {
+
+  if (!localStream) {
+
+    alert("पहले Video Call शुरू करें।");
+    return;
+
+  }
+
+  const videoTracks =
+    localStream.getVideoTracks();
+
+  if (!videoTracks.length) {
+
+    alert("यह Audio Call है।");
+    return;
+
+  }
+
+  videoTracks[0].enabled =
+    !videoTracks[0].enabled;
+
+  statusText.textContent =
+    videoTracks[0].enabled
+    ? "📷 Camera ON"
+    : "📷 Camera OFF";
+
+}
+
+
+// --------------------------------
+// End Call
+// --------------------------------
+
+function endCall() {
+
+  if (currentCall) {
+
+    try {
+      currentCall.close();
+    } catch(e) {}
+
+    currentCall = null;
+
+  }
+
+  if (localStream) {
+
+    localStream.getTracks().forEach(
+      track => track.stop()
+    );
+
+    localStream = null;
+
+  }
+
+  localVideo.srcObject = null;
+  remoteVideo.srcObject = null;
+
+  statusText.textContent =
+    "📞 Call Ended";
+
+}
+
+
+// --------------------------------
+// Create Share Link
+// --------------------------------
+
+function createShareLink(id) {
+
+  const url =
+    window.location.origin +
+    window.location.pathname +
+    "?room=" +
+    encodeURIComponent(id);
+
+  shareLinkText.textContent =
+    url;
+
+}
+
+
+// --------------------------------
+// Copy Room ID
+// --------------------------------
+
+function copyRoomID() {
+
+  const id =
+    myIdText.textContent;
+
+  navigator.clipboard.writeText(id);
+
+  statusText.textContent =
+    "✅ Room ID Copy हो गया";
+
+}
+
+
+// --------------------------------
+// Share Link
+// --------------------------------
+
+async function shareLink() {
+
+  const link =
+    shareLinkText.textContent;
+
+  if (navigator.share) {
+
+    try {
+
+      await navigator.share({
+
+        title: "Family Connect",
+
+        text:
+          "मुझसे Video/Audio Call पर जुड़ने के लिए यह Link खोलें:",
+
+        url: link
+
+      });
+
+    } catch(e) {}
+
+  } else {
+
+    navigator.clipboard.writeText(link);
+
+    alert(
+      "Link Copy हो गया। अब WhatsApp में भेज सकते हैं।"
+    );
+
+  }
+
+}
+
+
+// --------------------------------
+// Read Room From URL
+// --------------------------------
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const room =
+  params.get("room");
+
+if (room) {
+
+  document.getElementById("remoteId").value =
+    room;
+
+}
+
+
+// --------------------------------
+// Peer Error
+// --------------------------------
+
+peer.on("error", function(error) {
+
+  console.error(error);
+
+  statusText.textContent =
+    "❌ Connection Error";
+
+  if (error.type === "peer-unavailable") {
+
+    alert(
+      "यह Room अभी उपलब्ध नहीं है।\n" +
+      "सामने वाले को पहले website खोलनी होगी।"
+    );
+
+  }
+
+});
+
+</script>
 
 </body>
-
 </html>
