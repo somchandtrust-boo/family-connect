@@ -9,259 +9,445 @@
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#020617,#172554);
-  color: white;
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#020617;
+  color:white;
+  overflow:hidden;
 }
 
-header {
-  text-align: center;
-  padding: 18px;
-  background: rgba(0,0,0,.25);
+/* ================= HEADER ================= */
+
+.header{
+  height:58px;
+  background:#0f172a;
+  display:flex;
+  align-items:center;
+  padding:0 15px;
+  border-bottom:1px solid #1e293b;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 27px;
+.menuBtn{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:10px;
+  background:#1e293b;
+  color:white;
+  font-size:22px;
+  cursor:pointer;
 }
 
-#status {
-  margin-top: 7px;
-  font-size: 14px;
-  color: #86efac;
+.logo{
+  margin-left:12px;
+  font-weight:bold;
+  font-size:18px;
 }
 
-.container {
-  width: 100%;
-  max-width: 1000px;
-  margin: auto;
-  padding: 15px;
+.status{
+  margin-left:auto;
+  font-size:12px;
+  color:#86efac;
 }
 
-.videos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:-285px;
+  width:270px;
+  height:100vh;
+  background:#0f172a;
+  z-index:1000;
+  padding:18px;
+  transition:.3s;
+  box-shadow:10px 0 30px rgba(0,0,0,.4);
 }
 
-.videoBox {
-  position: relative;
-  background: #020617;
-  border-radius: 16px;
-  overflow: hidden;
-  min-height: 280px;
-  border: 1px solid rgba(255,255,255,.1);
+.sidebar.open{
+  left:0;
 }
 
-.videoBox video {
-  width: 100%;
-  height: 100%;
-  min-height: 280px;
-  object-fit: cover;
-  background: #000;
+.sideTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
 }
 
-.label {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 5;
-  padding: 7px 10px;
-  background: rgba(0,0,0,.65);
-  border-radius: 8px;
-  font-size: 13px;
+.sideTitle h2{
+  margin:0;
+  font-size:19px;
 }
 
-.controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 15px;
+.closeBtn{
+  background:#1e293b;
+  color:white;
+  border:0;
+  width:36px;
+  height:36px;
+  border-radius:9px;
+  font-size:18px;
 }
 
-input {
-  width: 100%;
-  padding: 15px;
-  border: 0;
-  border-radius: 10px;
-  font-size: 16px;
-  outline: none;
+.sideButton{
+  width:100%;
+  height:48px;
+  margin-bottom:9px;
+  border:0;
+  border-radius:11px;
+  color:white;
+  font-size:15px;
+  text-align:left;
+  padding:0 15px;
+  cursor:pointer;
 }
 
-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
+.sideButton span{
+  display:inline-block;
+  width:30px;
+  font-size:20px;
 }
 
-button:active {
-  transform: scale(.98);
+.videoBtn{background:#16a34a;}
+.audioBtn{background:#2563eb;}
+.muteBtn{background:#b45309;}
+.cameraBtn{background:#7c3aed;}
+.mirrorBtn{background:#0891b2;}
+.backgroundBtn{background:#db2777;}
+.endBtn{background:#dc2626;}
+.shareBtn{background:#0f766e;}
+
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:900;
 }
 
-.videoBtn {
-  background: #16a34a;
+.overlay.show{
+  display:block;
 }
 
-.audioBtn {
-  background: #2563eb;
+/* ================= MAIN ================= */
+
+.main{
+  height:calc(100vh - 58px);
+  padding:12px;
 }
 
-.muteBtn {
-  background: #f59e0b;
+.videos{
+  height:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
-.cameraBtn {
-  background: #7c3aed;
+.videoBox{
+  position:relative;
+  background:#000;
+  border-radius:15px;
+  overflow:hidden;
+  border:1px solid #1e293b;
 }
 
-.mirrorBtn {
-  background: #0891b2;
+.videoBox video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:#000;
 }
 
-.backgroundBtn {
-  background: #db2777;
+.videoLabel{
+  position:absolute;
+  top:10px;
+  left:10px;
+  padding:6px 9px;
+  background:rgba(0,0,0,.65);
+  border-radius:8px;
+  font-size:12px;
+  z-index:5;
 }
 
-.endBtn {
-  background: #dc2626;
+/* ================= MINI PANEL ================= */
+
+.bottomPanel{
+  position:fixed;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(600px,calc(100% - 25px));
+  background:rgba(15,23,42,.94);
+  border:1px solid #334155;
+  border-radius:14px;
+  padding:9px;
+  display:flex;
+  gap:7px;
+  align-items:center;
+  backdrop-filter:blur(12px);
 }
 
-.copyBtn {
-  background: #475569;
+.smallInput{
+  min-width:0;
+  flex:1;
+  height:34px;
+  background:#020617;
+  color:white;
+  border:1px solid #334155;
+  border-radius:7px;
+  padding:0 8px;
+  font-size:11px;
+  outline:none;
 }
 
-.shareBtn {
-  background: #0f766e;
+.smallButton{
+  height:34px;
+  padding:0 10px;
+  border:0;
+  border-radius:7px;
+  background:#334155;
+  color:white;
+  font-size:12px;
+  cursor:pointer;
 }
 
-.info {
-  margin-top: 15px;
-  background: rgba(255,255,255,.08);
-  padding: 14px;
-  border-radius: 12px;
-  word-break: break-all;
+/* ================= BACKGROUND MENU ================= */
+
+.bgPanel{
+  display:none;
+  position:fixed;
+  left:285px;
+  bottom:20px;
+  width:250px;
+  background:#0f172a;
+  border:1px solid #334155;
+  border-radius:14px;
+  padding:14px;
+  z-index:1100;
 }
 
-.info b {
-  display: block;
-  margin-bottom: 6px;
+.bgPanel.show{
+  display:block;
 }
 
-#myId {
-  color: #93c5fd;
+.bgPanel h3{
+  margin:0 0 12px;
+  font-size:15px;
 }
 
-#shareLink {
-  color: #86efac;
-  font-size: 14px;
+.bgGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
 }
 
-.backgroundPanel {
-  display: none;
-  margin-top: 15px;
-  padding: 15px;
-  background: rgba(0,0,0,.35);
-  border-radius: 15px;
+.bgGrid button{
+  height:38px;
+  border:0;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
 }
 
-.backgroundPanel h3 {
-  margin-top: 0;
-}
+.bg1{background:linear-gradient(135deg,#0f172a,#1e3a8a);}
+.bg2{background:linear-gradient(135deg,#14532d,#16a34a);}
+.bg3{background:linear-gradient(135deg,#581c87,#9333ea);}
+.bg4{background:linear-gradient(135deg,#7c2d12,#ea580c);}
+.bg5{background:#f8fafc;color:#111!important;}
+.bg6{background:#000;}
 
-.bgButtons {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 8px;
-}
+@media(max-width:700px){
 
-.bgButtons button {
-  background: #334155;
-}
-
-.bg1 {
-  background: linear-gradient(135deg,#0f172a,#1e3a8a) !important;
-}
-
-.bg2 {
-  background: linear-gradient(135deg,#14532d,#166534) !important;
-}
-
-.bg3 {
-  background: linear-gradient(135deg,#581c87,#7e22ce) !important;
-}
-
-.bg4 {
-  background: linear-gradient(135deg,#7c2d12,#c2410c) !important;
-}
-
-.bg5 {
-  background: #f8fafc !important;
-  color: #111 !important;
-}
-
-.bg6 {
-  background: #020617 !important;
-}
-
-@media(max-width:700px) {
-
-  .videos {
-    grid-template-columns: 1fr;
+  .videos{
+    grid-template-columns:1fr;
   }
 
-  .controls {
-    grid-template-columns: 1fr;
+  .videoBox:first-child{
+    height:55%;
   }
 
-  .videoBox {
-    min-height: 240px;
+  .videoBox:last-child{
+    height:45%;
   }
 
-  .videoBox video {
-    min-height: 240px;
+  .main{
+    padding:7px;
   }
 
-  .bgButtons {
-    grid-template-columns: 1fr 1fr;
+  .bottomPanel{
+    bottom:7px;
+    width:calc(100% - 14px);
   }
+
+  .smallInput{
+    font-size:10px;
+  }
+
+  .bgPanel{
+    left:10px;
+    bottom:65px;
+  }
+
+}
+
+@media(min-width:701px){
+
+  .menuBtn{
+    display:block;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<!-- ================= HEADER ================= -->
 
-  <h1>👨‍👩‍👧‍👦 Family Connect</h1>
+<div class="header">
 
-  <div id="status">
+  <button class="menuBtn" onclick="openSidebar()">
+    ☰
+  </button>
+
+  <div class="logo">
+    👨‍👩‍👧‍👦 Family Connect
+  </div>
+
+  <div class="status" id="status">
     Connecting...
   </div>
 
-</header>
+</div>
 
 
-<div class="container">
+<!-- ================= OVERLAY ================= -->
+
+<div
+  class="overlay"
+  id="overlay"
+  onclick="closeSidebar()">
+</div>
 
 
-  <!-- VIDEO AREA -->
+<!-- ================= SIDEBAR ================= -->
+
+<div class="sidebar" id="sidebar">
+
+  <div class="sideTitle">
+
+    <h2>🎛️ Controls</h2>
+
+    <button
+      class="closeBtn"
+      onclick="closeSidebar()">
+      ✕
+    </button>
+
+  </div>
+
+
+  <button
+    class="sideButton videoBtn"
+    onclick="startVideoCall()">
+
+    <span>📹</span>
+    Video Call
+
+  </button>
+
+
+  <button
+    class="sideButton audioBtn"
+    onclick="startAudioCall()">
+
+    <span>🎙️</span>
+    Audio Call
+
+  </button>
+
+
+  <button
+    class="sideButton muteBtn"
+    onclick="toggleMute()">
+
+    <span>🔇</span>
+    Mic ON / OFF
+
+  </button>
+
+
+  <button
+    class="sideButton cameraBtn"
+    onclick="toggleCamera()">
+
+    <span>📷</span>
+    Camera ON / OFF
+
+  </button>
+
+
+  <button
+    class="sideButton mirrorBtn"
+    onclick="toggleMirror()">
+
+    <span>🔄</span>
+    Mirror ON / OFF
+
+  </button>
+
+
+  <button
+    class="sideButton backgroundBtn"
+    onclick="toggleBackground()">
+
+    <span>🖼️</span>
+    Background
+
+  </button>
+
+
+  <button
+    class="sideButton shareBtn"
+    onclick="shareLink()">
+
+    <span>📤</span>
+    Share Link
+
+  </button>
+
+
+  <button
+    class="sideButton endBtn"
+    onclick="endCall()">
+
+    <span>📞</span>
+    End Call
+
+  </button>
+
+</div>
+
+
+<!-- ================= MAIN VIDEO ================= -->
+
+<div class="main">
 
   <div class="videos">
 
-    <div class="videoBox" id="localBox">
+    <div
+      class="videoBox"
+      id="localBox">
 
-      <div class="label">
-        📷 आपका Camera
+      <div class="videoLabel">
+        📷 You
       </div>
 
       <video
@@ -276,8 +462,8 @@ button:active {
 
     <div class="videoBox">
 
-      <div class="label">
-        👤 सामने वाला
+      <div class="videoLabel">
+        👤 Family / Guest
       </div>
 
       <video
@@ -290,188 +476,89 @@ button:active {
 
   </div>
 
+</div>
 
-  <!-- CONTROLS -->
 
-  <div class="controls">
+<!-- ================= COMPACT ROOM PANEL ================= -->
 
-    <input
-      id="name"
-      type="text"
-      placeholder="अपना नाम लिखें">
+<div class="bottomPanel">
 
-    <input
-      id="remoteId"
-      type="text"
-      placeholder="सामने वाले का Room ID">
+  <input
+    class="smallInput"
+    id="name"
+    placeholder="Name">
 
+  <input
+    class="smallInput"
+    id="remoteId"
+    placeholder="Room ID">
+
+  <button
+    class="smallButton"
+    onclick="copyRoomID()">
+    ID
+  </button>
+
+  <button
+    class="smallButton"
+    onclick="shareLink()">
+    🔗
+  </button>
+
+</div>
+
+
+<!-- ================= BACKGROUND PANEL ================= -->
+
+<div
+  class="bgPanel"
+  id="bgPanel">
+
+  <h3>
+    🖼️ Background
+  </h3>
+
+  <div class="bgGrid">
 
     <button
-      class="videoBtn"
-      onclick="startVideoCall()">
-
-      📹 Video Call
-
+      class="bg1"
+      onclick="setBackground('bg1')">
+      🌌 Blue
     </button>
 
-
     <button
-      class="audioBtn"
-      onclick="startAudioCall()">
-
-      🎙️ Audio Call
-
+      class="bg2"
+      onclick="setBackground('bg2')">
+      🌿 Green
     </button>
 
-
     <button
-      class="muteBtn"
-      onclick="toggleMute()">
-
-      🔇 Mic Mute
-
+      class="bg3"
+      onclick="setBackground('bg3')">
+      💜 Purple
     </button>
 
-
     <button
-      class="cameraBtn"
-      onclick="toggleCamera()">
-
-      📷 Camera ON/OFF
-
+      class="bg4"
+      onclick="setBackground('bg4')">
+      🌅 Sunset
     </button>
 
-
     <button
-      class="mirrorBtn"
-      onclick="toggleMirror()">
-
-      🔄 Mirror ON/OFF
-
+      class="bg5"
+      onclick="setBackground('bg5')">
+      ⚪ White
     </button>
 
-
     <button
-      class="backgroundBtn"
-      onclick="toggleBackgroundPanel()">
-
-      🖼️ Background
-
+      class="bg6"
+      onclick="setBackground('bg6')">
+      ⚫ Dark
     </button>
 
-
     <button
-      class="endBtn"
-      onclick="endCall()">
-
-      📞 End Call
-
-    </button>
-
-
-    <button
-      class="copyBtn"
-      onclick="copyRoomID()">
-
-      🔗 Copy Room ID
-
-    </button>
-
-  </div>
-
-
-  <!-- BACKGROUND PANEL -->
-
-  <div
-    class="backgroundPanel"
-    id="backgroundPanel">
-
-    <h3>
-      🖼️ Background चुनें
-    </h3>
-
-    <div class="bgButtons">
-
-      <button
-        class="bg1"
-        onclick="setBackground('bg1')">
-        🌌 Blue
-      </button>
-
-      <button
-        class="bg2"
-        onclick="setBackground('bg2')">
-        🌿 Green
-      </button>
-
-      <button
-        class="bg3"
-        onclick="setBackground('bg3')">
-        💜 Purple
-      </button>
-
-      <button
-        class="bg4"
-        onclick="setBackground('bg4')">
-        🔥 Sunset
-      </button>
-
-      <button
-        class="bg5"
-        onclick="setBackground('bg5')">
-        ⚪ White
-      </button>
-
-      <button
-        class="bg6"
-        onclick="setBackground('bg6')">
-        ⚫ Dark
-      </button>
-
-      <button
-        onclick="resetBackground()">
-        🔄 Reset
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- ROOM ID -->
-
-  <div class="info">
-
-    <b>
-      🆔 आपका Room ID
-    </b>
-
-    <span id="myId">
-      Connecting...
-    </span>
-
-  </div>
-
-
-  <!-- SHARE LINK -->
-
-  <div class="info">
-
-    <b>
-      🔗 Share Link
-    </b>
-
-    <div id="shareLink">
-      Preparing...
-    </div>
-
-    <button
-      class="shareBtn"
-      style="width:100%;margin-top:10px"
-      onclick="shareLink()">
-
-      📤 Family को Link भेजें
-
+      onclick="resetBackground()">
+      🔄 Reset
     </button>
 
   </div>
@@ -485,13 +572,14 @@ button:active {
    VARIABLES
 ========================================= */
 
-let peer = null;
+let peer;
 
 let localStream = null;
 
 let currentCall = null;
 
 let mirrorEnabled = false;
+
 
 const localVideo =
   document.getElementById("localVideo");
@@ -505,29 +593,49 @@ const localBox =
 const statusText =
   document.getElementById("status");
 
-const myIdText =
-  document.getElementById("myId");
+const sidebar =
+  document.getElementById("sidebar");
 
-const shareLinkText =
-  document.getElementById("shareLink");
+const overlay =
+  document.getElementById("overlay");
 
-const backgroundPanel =
-  document.getElementById("backgroundPanel");
+const bgPanel =
+  document.getElementById("bgPanel");
 
 
 /* =========================================
-   PEER CONNECTION
+   SIDEBAR
+========================================= */
+
+function openSidebar(){
+
+  sidebar.classList.add("open");
+
+  overlay.classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+  sidebar.classList.remove("open");
+
+  overlay.classList.remove("show");
+
+}
+
+
+/* =========================================
+   PEER
 ========================================= */
 
 peer = new Peer();
 
 
-peer.on("open", function(id) {
-
-  myIdText.textContent = id;
+peer.on("open",function(id){
 
   statusText.textContent =
-    "✅ Ready to Connect";
+    "● Online";
 
   createShareLink(id);
 
@@ -538,40 +646,35 @@ peer.on("open", function(id) {
    INCOMING CALL
 ========================================= */
 
-peer.on("call", async function(call) {
+peer.on("call",async function(call){
 
   currentCall = call;
 
-  try {
+  try{
 
     const stream =
       await startLocalMedia(true);
 
     call.answer(stream);
 
-    call.on("stream", function(remoteStream) {
+    call.on(
+      "stream",
+      function(remoteStream){
 
-      remoteVideo.srcObject =
-        remoteStream;
+        remoteVideo.srcObject =
+          remoteStream;
 
-      statusText.textContent =
-        "🟢 Video Call Connected";
+        statusText.textContent =
+          "● Connected";
 
-    });
-
-    call.on("close", function() {
-
-      endCall();
-
-    });
+      }
+    );
 
   }
-
-  catch(error) {
+  catch(error){
 
     alert(
-      "Camera/Microphone permission नहीं मिली।\n\n" +
-      error.message
+      "Camera/Microphone permission required."
     );
 
   }
@@ -580,27 +683,28 @@ peer.on("call", async function(call) {
 
 
 /* =========================================
-   VIDEO CALL
+   START VIDEO CALL
 ========================================= */
 
-async function startVideoCall() {
+async function startVideoCall(){
 
   const remoteId =
-    document.getElementById("remoteId")
-    .value
-    .trim();
+    document
+      .getElementById("remoteId")
+      .value
+      .trim();
 
-  if (!remoteId) {
 
-    alert(
-      "सामने वाले का Room ID डालें।"
-    );
+  if(!remoteId){
+
+    alert("Room ID डालें।");
 
     return;
+
   }
 
 
-  try {
+  try{
 
     const stream =
       await startLocalMedia(true);
@@ -615,46 +719,21 @@ async function startVideoCall() {
 
     currentCall.on(
       "stream",
-      function(remoteStream) {
+      function(remoteStream){
 
         remoteVideo.srcObject =
           remoteStream;
 
         statusText.textContent =
-          "🟢 Video Call Connected";
-
-      }
-    );
-
-
-    currentCall.on(
-      "close",
-      function() {
-
-        endCall();
-
-      }
-    );
-
-
-    currentCall.on(
-      "error",
-      function(error) {
-
-        alert(
-          "Call Error: " +
-          error.message
-        );
+          "● Video Connected";
 
       }
     );
 
   }
-
-  catch(error) {
+  catch(error){
 
     alert(
-      "Camera/Microphone शुरू नहीं हो सके:\n" +
       error.message
     );
 
@@ -667,26 +746,25 @@ async function startVideoCall() {
    AUDIO CALL
 ========================================= */
 
-async function startAudioCall() {
+async function startAudioCall(){
 
   const remoteId =
-    document.getElementById("remoteId")
-    .value
-    .trim();
+    document
+      .getElementById("remoteId")
+      .value
+      .trim();
 
 
-  if (!remoteId) {
+  if(!remoteId){
 
-    alert(
-      "सामने वाले का Room ID डालें।"
-    );
+    alert("Room ID डालें।");
 
     return;
 
   }
 
 
-  try {
+  try{
 
     const stream =
       await startLocalMedia(false);
@@ -701,24 +779,21 @@ async function startAudioCall() {
 
     currentCall.on(
       "stream",
-      function(remoteStream) {
+      function(remoteStream){
 
         remoteVideo.srcObject =
           remoteStream;
 
         statusText.textContent =
-          "🟢 Audio Call Connected";
+          "● Audio Connected";
 
       }
     );
 
-
   }
-
-  catch(error) {
+  catch(error){
 
     alert(
-      "Microphone permission नहीं मिली:\n" +
       error.message
     );
 
@@ -728,14 +803,12 @@ async function startAudioCall() {
 
 
 /* =========================================
-   CAMERA + MICROPHONE
+   LOCAL MEDIA
 ========================================= */
 
-async function startLocalMedia(
-  videoEnabled
-) {
+async function startLocalMedia(video){
 
-  if (localStream) {
+  if(localStream){
 
     localStream
       .getTracks()
@@ -751,9 +824,9 @@ async function startLocalMedia(
       .mediaDevices
       .getUserMedia({
 
-        video: videoEnabled,
+        video:video,
 
-        audio: true
+        audio:true
 
       });
 
@@ -771,9 +844,9 @@ async function startLocalMedia(
    MUTE
 ========================================= */
 
-function toggleMute() {
+function toggleMute(){
 
-  if (!localStream) {
+  if(!localStream){
 
     alert(
       "पहले Call शुरू करें।"
@@ -784,23 +857,20 @@ function toggleMute() {
   }
 
 
-  const audioTracks =
-    localStream.getAudioTracks();
+  const tracks =
+    localStream
+      .getAudioTracks();
 
 
-  if (!audioTracks.length) {
-
-    return;
-
-  }
+  if(!tracks.length)return;
 
 
-  audioTracks[0].enabled =
-    !audioTracks[0].enabled;
+  tracks[0].enabled =
+    !tracks[0].enabled;
 
 
   statusText.textContent =
-    audioTracks[0].enabled
+    tracks[0].enabled
     ? "🎙️ Mic ON"
     : "🔇 Mic OFF";
 
@@ -808,12 +878,12 @@ function toggleMute() {
 
 
 /* =========================================
-   CAMERA ON/OFF
+   CAMERA
 ========================================= */
 
-function toggleCamera() {
+function toggleCamera(){
 
-  if (!localStream) {
+  if(!localStream){
 
     alert(
       "पहले Video Call शुरू करें।"
@@ -824,14 +894,15 @@ function toggleCamera() {
   }
 
 
-  const videoTracks =
-    localStream.getVideoTracks();
+  const tracks =
+    localStream
+      .getVideoTracks();
 
 
-  if (!videoTracks.length) {
+  if(!tracks.length){
 
     alert(
-      "यह Audio Call है।"
+      "Audio Call में Camera नहीं है।"
     );
 
     return;
@@ -839,12 +910,12 @@ function toggleCamera() {
   }
 
 
-  videoTracks[0].enabled =
-    !videoTracks[0].enabled;
+  tracks[0].enabled =
+    !tracks[0].enabled;
 
 
   statusText.textContent =
-    videoTracks[0].enabled
+    tracks[0].enabled
     ? "📷 Camera ON"
     : "📷 Camera OFF";
 
@@ -855,66 +926,38 @@ function toggleCamera() {
    MIRROR
 ========================================= */
 
-function toggleMirror() {
+function toggleMirror(){
 
   mirrorEnabled =
     !mirrorEnabled;
 
 
-  if (mirrorEnabled) {
+  localVideo.style.transform =
+    mirrorEnabled
+    ? "scaleX(-1)"
+    : "scaleX(1)";
 
-    localVideo.style.transform =
-      "scaleX(-1)";
 
-    statusText.textContent =
-      "🔄 Mirror ON";
-
-  }
-
-  else {
-
-    localVideo.style.transform =
-      "scaleX(1)";
-
-    statusText.textContent =
-      "🔄 Mirror OFF";
-
-  }
+  statusText.textContent =
+    mirrorEnabled
+    ? "🔄 Mirror ON"
+    : "🔄 Mirror OFF";
 
 }
 
 
 /* =========================================
-   BACKGROUND PANEL
+   BACKGROUND
 ========================================= */
 
-function toggleBackgroundPanel() {
+function toggleBackground(){
 
-  if (
-    backgroundPanel.style.display ===
-    "block"
-  ) {
-
-    backgroundPanel.style.display =
-      "none";
-
-  }
-
-  else {
-
-    backgroundPanel.style.display =
-      "block";
-
-  }
+  bgPanel.classList.toggle("show");
 
 }
 
 
-/* =========================================
-   BACKGROUND CHANGE
-========================================= */
-
-function setBackground(type) {
+function setBackground(type){
 
   localBox.classList.remove(
     "bg1",
@@ -928,18 +971,13 @@ function setBackground(type) {
 
   localBox.classList.add(type);
 
-
   statusText.textContent =
     "🖼️ Background Changed";
 
 }
 
 
-/* =========================================
-   RESET BACKGROUND
-========================================= */
-
-function resetBackground() {
+function resetBackground(){
 
   localBox.classList.remove(
     "bg1",
@@ -950,10 +988,6 @@ function resetBackground() {
     "bg6"
   );
 
-
-  statusText.textContent =
-    "🔄 Background Reset";
-
 }
 
 
@@ -961,24 +995,21 @@ function resetBackground() {
    END CALL
 ========================================= */
 
-function endCall() {
+function endCall(){
 
-  if (currentCall) {
+  if(currentCall){
 
-    try {
-
+    try{
       currentCall.close();
-
     }
-
-    catch(e) {}
+    catch(e){}
 
     currentCall = null;
 
   }
 
 
-  if (localStream) {
+  if(localStream){
 
     localStream
       .getTracks()
@@ -995,18 +1026,17 @@ function endCall() {
 
   remoteVideo.srcObject = null;
 
-
   statusText.textContent =
-    "📞 Call Ended";
+    "● Ready";
 
 }
 
 
 /* =========================================
-   ROOM SHARE LINK
+   SHARE LINK
 ========================================= */
 
-function createShareLink(id) {
+function createShareLink(id){
 
   const url =
     window.location.origin +
@@ -1015,8 +1045,60 @@ function createShareLink(id) {
     encodeURIComponent(id);
 
 
-  shareLinkText.textContent =
+  window.familyConnectLink =
     url;
+
+}
+
+
+async function shareLink(){
+
+  const link =
+    window.familyConnectLink;
+
+
+  if(!link){
+
+    alert(
+      "Link अभी तैयार नहीं है।"
+    );
+
+    return;
+
+  }
+
+
+  if(navigator.share){
+
+    try{
+
+      await navigator.share({
+
+        title:
+          "Family Connect",
+
+        text:
+          "Video/Audio Call के लिए जुड़ें",
+
+        url:link
+
+      });
+
+    }
+    catch(e){}
+
+  }
+  else{
+
+    await navigator
+      .clipboard
+      .writeText(link);
+
+    alert(
+      "Share Link Copy हो गया।"
+    );
+
+  }
 
 }
 
@@ -1025,16 +1107,13 @@ function createShareLink(id) {
    COPY ROOM ID
 ========================================= */
 
-function copyRoomID() {
+function copyRoomID(){
 
   const id =
-    myIdText.textContent;
+    peer.id;
 
 
-  if (
-    !id ||
-    id === "Connecting..."
-  ) {
+  if(!id){
 
     alert(
       "Room ID अभी तैयार नहीं है।"
@@ -1045,77 +1124,13 @@ function copyRoomID() {
   }
 
 
-  navigator.clipboard
+  navigator
+    .clipboard
     .writeText(id);
 
 
   statusText.textContent =
-    "✅ Room ID Copy हो गया";
-
-}
-
-
-/* =========================================
-   SHARE LINK
-========================================= */
-
-async function shareLink() {
-
-  const link =
-    shareLinkText.textContent;
-
-
-  if (
-    !link ||
-    link === "Preparing..."
-  ) {
-
-    alert(
-      "Share Link अभी तैयार नहीं है।"
-    );
-
-    return;
-
-  }
-
-
-  if (
-    navigator.share
-  ) {
-
-    try {
-
-      await navigator.share({
-
-        title:
-          "Family Connect",
-
-        text:
-          "मुझसे Video/Audio Call पर जुड़ने के लिए यह Link खोलें:",
-
-        url:
-          link
-
-      });
-
-    }
-
-    catch(e) {}
-
-  }
-
-  else {
-
-    await navigator
-      .clipboard
-      .writeText(link);
-
-
-    alert(
-      "Link Copy हो गया। अब WhatsApp में भेज सकते हैं।"
-    );
-
-  }
+    "✅ Room ID Copied";
 
 }
 
@@ -1134,7 +1149,7 @@ const room =
   params.get("room");
 
 
-if (room) {
+if(room){
 
   document
     .getElementById("remoteId")
@@ -1144,27 +1159,26 @@ if (room) {
 
 
 /* =========================================
-   PEER ERROR
+   ERROR
 ========================================= */
 
 peer.on(
   "error",
-  function(error) {
+  function(error){
 
     console.error(error);
 
-
     statusText.textContent =
-      "❌ Connection Error";
+      "● Connection Error";
 
 
-    if (
+    if(
       error.type ===
       "peer-unavailable"
-    ) {
+    ){
 
       alert(
-        "सामने वाला अभी Online नहीं है या Room ID गलत है।"
+        "सामने वाला अभी Online नहीं है।"
       );
 
     }
