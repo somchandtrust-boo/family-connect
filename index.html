@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
 
 <title>Family Connect</title>
 
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
 
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:#020617;
-  color:white;
+  color:#fff;
   overflow:hidden;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 .header{
   height:58px;
-  background:#0f172a;
   display:flex;
   align-items:center;
-  padding:0 15px;
+  padding:0 14px;
+  background:#0f172a;
   border-bottom:1px solid #1e293b;
 }
 
-.menuBtn{
+.menu{
   width:42px;
   height:42px;
   border:0;
@@ -45,8 +50,8 @@ body{
 
 .logo{
   margin-left:12px;
-  font-weight:bold;
   font-size:18px;
+  font-weight:bold;
 }
 
 .status{
@@ -55,92 +60,119 @@ body{
   color:#86efac;
 }
 
-/* ================= SIDEBAR ================= */
+/* SIDEBAR */
 
 .sidebar{
   position:fixed;
-  top:0;
   left:-285px;
+  top:0;
   width:270px;
   height:100vh;
   background:#0f172a;
   z-index:1000;
   padding:18px;
   transition:.3s;
-  box-shadow:10px 0 30px rgba(0,0,0,.4);
+  box-shadow:8px 0 30px rgba(0,0,0,.5);
 }
 
 .sidebar.open{
   left:0;
 }
 
-.sideTitle{
+.sidebarTitle{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   margin-bottom:20px;
 }
 
-.sideTitle h2{
+.sidebarTitle h2{
   margin:0;
   font-size:19px;
 }
 
-.closeBtn{
-  background:#1e293b;
-  color:white;
-  border:0;
+.close{
   width:36px;
   height:36px;
-  border-radius:9px;
+  border:0;
+  border-radius:8px;
+  background:#1e293b;
+  color:white;
   font-size:18px;
 }
 
-.sideButton{
+.sideBtn{
   width:100%;
   height:48px;
-  margin-bottom:9px;
   border:0;
-  border-radius:11px;
+  border-radius:10px;
+  margin-bottom:9px;
   color:white;
-  font-size:15px;
   text-align:left;
-  padding:0 15px;
+  padding:0 14px;
+  font-size:15px;
   cursor:pointer;
 }
 
-.sideButton span{
+.sideBtn span{
   display:inline-block;
   width:30px;
-  font-size:20px;
+  font-size:19px;
 }
 
-.videoBtn{background:#16a34a;}
-.audioBtn{background:#2563eb;}
-.muteBtn{background:#b45309;}
-.cameraBtn{background:#7c3aed;}
-.mirrorBtn{background:#0891b2;}
-.backgroundBtn{background:#db2777;}
-.endBtn{background:#dc2626;}
-.shareBtn{background:#0f766e;}
+.adminBtn{
+  background:#7c3aed;
+}
+
+.videoBtn{
+  background:#16a34a;
+}
+
+.audioBtn{
+  background:#2563eb;
+}
+
+.muteBtn{
+  background:#b45309;
+}
+
+.cameraBtn{
+  background:#9333ea;
+}
+
+.mirrorBtn{
+  background:#0891b2;
+}
+
+.bgBtn{
+  background:#db2777;
+}
+
+.shareBtn{
+  background:#0f766e;
+}
+
+.endBtn{
+  background:#dc2626;
+}
 
 .overlay{
-  display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.5);
+  background:rgba(0,0,0,.55);
   z-index:900;
+  display:none;
 }
 
 .overlay.show{
   display:block;
 }
 
-/* ================= MAIN ================= */
+/* MAIN */
 
 .main{
   height:calc(100vh - 58px);
-  padding:12px;
+  padding:10px;
 }
 
 .videos{
@@ -165,81 +197,173 @@ body{
   background:#000;
 }
 
-.videoLabel{
+.label{
   position:absolute;
-  top:10px;
   left:10px;
-  padding:6px 9px;
-  background:rgba(0,0,0,.65);
-  border-radius:8px;
-  font-size:12px;
+  top:10px;
   z-index:5;
-}
-
-/* ================= MINI PANEL ================= */
-
-.bottomPanel{
-  position:fixed;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  width:min(600px,calc(100% - 25px));
-  background:rgba(15,23,42,.94);
-  border:1px solid #334155;
-  border-radius:14px;
-  padding:9px;
-  display:flex;
-  gap:7px;
-  align-items:center;
-  backdrop-filter:blur(12px);
-}
-
-.smallInput{
-  min-width:0;
-  flex:1;
-  height:34px;
-  background:#020617;
-  color:white;
-  border:1px solid #334155;
+  background:rgba(0,0,0,.65);
+  padding:6px 9px;
   border-radius:7px;
-  padding:0 8px;
-  font-size:11px;
-  outline:none;
-}
-
-.smallButton{
-  height:34px;
-  padding:0 10px;
-  border:0;
-  border-radius:7px;
-  background:#334155;
-  color:white;
   font-size:12px;
-  cursor:pointer;
 }
 
-/* ================= BACKGROUND MENU ================= */
+/* ADMIN PANEL */
 
-.bgPanel{
-  display:none;
+.adminPanel{
   position:fixed;
-  left:285px;
-  bottom:20px;
-  width:250px;
+  right:12px;
+  top:70px;
+  width:300px;
   background:#0f172a;
   border:1px solid #334155;
   border-radius:14px;
   padding:14px;
-  z-index:1100;
+  z-index:500;
+  display:none;
+}
+
+.adminPanel.show{
+  display:block;
+}
+
+.adminPanel h3{
+  margin:0 0 10px;
+}
+
+.adminPanel input{
+  width:100%;
+  padding:11px;
+  border:0;
+  border-radius:8px;
+  margin-bottom:8px;
+}
+
+.invite{
+  background:#020617;
+  padding:10px;
+  border-radius:8px;
+  font-size:11px;
+  word-break:break-all;
+  color:#86efac;
+}
+
+.panelBtn{
+  width:100%;
+  padding:11px;
+  border:0;
+  border-radius:8px;
+  margin-top:8px;
+  color:white;
+  background:#2563eb;
+}
+
+/* INCOMING */
+
+.incoming{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(360px,90%);
+  background:#0f172a;
+  border:1px solid #475569;
+  border-radius:18px;
+  padding:22px;
+  text-align:center;
+  z-index:2000;
+  display:none;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+}
+
+.incoming.show{
+  display:block;
+}
+
+.incoming h2{
+  margin-top:0;
+}
+
+.accept{
+  background:#16a34a;
+}
+
+.reject{
+  background:#dc2626;
+}
+
+.incoming button{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:9px;
+  margin-top:8px;
+  color:white;
+  font-weight:bold;
+}
+
+/* GUEST */
+
+.guestPanel{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(380px,92%);
+  background:#0f172a;
+  border:1px solid #334155;
+  border-radius:20px;
+  padding:25px;
+  z-index:800;
+  text-align:center;
+}
+
+.guestPanel h1{
+  margin-top:0;
+}
+
+.guestPanel input{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:9px;
+  margin:8px 0;
+  font-size:16px;
+}
+
+.joinBtn{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:9px;
+  background:#16a34a;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.guestPanel.hidden{
+  display:none;
+}
+
+/* BACKGROUND */
+
+.bgPanel{
+  position:fixed;
+  left:285px;
+  bottom:20px;
+  width:250px;
+  padding:14px;
+  background:#0f172a;
+  border:1px solid #334155;
+  border-radius:14px;
+  z-index:1200;
+  display:none;
 }
 
 .bgPanel.show{
   display:block;
-}
-
-.bgPanel h3{
-  margin:0 0 12px;
-  font-size:15px;
 }
 
 .bgGrid{
@@ -253,41 +377,86 @@ body{
   border:0;
   border-radius:8px;
   color:white;
-  cursor:pointer;
 }
 
-.bg1{background:linear-gradient(135deg,#0f172a,#1e3a8a);}
-.bg2{background:linear-gradient(135deg,#14532d,#16a34a);}
-.bg3{background:linear-gradient(135deg,#581c87,#9333ea);}
-.bg4{background:linear-gradient(135deg,#7c2d12,#ea580c);}
-.bg5{background:#f8fafc;color:#111!important;}
-.bg6{background:#000;}
+.bg1{
+  background:#1e3a8a;
+}
+
+.bg2{
+  background:#166534;
+}
+
+.bg3{
+  background:#7e22ce;
+}
+
+.bg4{
+  background:#c2410c;
+}
+
+.bg5{
+  background:#f8fafc;
+  color:#111!important;
+}
+
+.bg6{
+  background:#000;
+}
+
+/* BOTTOM INFO */
+
+.bottomInfo{
+  position:fixed;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(500px,calc(100% - 20px));
+  background:rgba(15,23,42,.95);
+  border:1px solid #334155;
+  border-radius:12px;
+  padding:8px;
+  z-index:400;
+  display:flex;
+  gap:7px;
+}
+
+.small{
+  flex:1;
+  min-width:0;
+  background:#020617;
+  color:white;
+  border:1px solid #334155;
+  border-radius:7px;
+  padding:8px;
+  font-size:11px;
+}
+
+.smallBtn{
+  border:0;
+  background:#334155;
+  color:white;
+  border-radius:7px;
+  padding:0 10px;
+}
+
+/* MOBILE */
 
 @media(max-width:700px){
 
   .videos{
     grid-template-columns:1fr;
-  }
-
-  .videoBox:first-child{
-    height:55%;
-  }
-
-  .videoBox:last-child{
-    height:45%;
+    grid-template-rows:1fr 1fr;
   }
 
   .main{
-    padding:7px;
+    padding:6px;
   }
 
-  .bottomPanel{
-    bottom:7px;
-    width:calc(100% - 14px);
-  }
-
-  .smallInput{
-    font-size:10px;
+  .adminPanel{
+    top:65px;
+    right:8px;
+    width:calc(100% - 16px);
   }
 
   .bgPanel{
@@ -295,25 +464,26 @@ body{
     bottom:65px;
   }
 
-}
-
-@media(min-width:701px){
-
-  .menuBtn{
-    display:block;
+  .bottomInfo{
+    bottom:6px;
   }
 
 }
+
 </style>
+
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+
+<!-- HEADER -->
 
 <div class="header">
 
-  <button class="menuBtn" onclick="openSidebar()">
+  <button
+    class="menu"
+    onclick="openSidebar()">
     ☰
   </button>
 
@@ -321,14 +491,16 @@ body{
     👨‍👩‍👧‍👦 Family Connect
   </div>
 
-  <div class="status" id="status">
+  <div
+    class="status"
+    id="status">
     Connecting...
   </div>
 
 </div>
 
 
-<!-- ================= OVERLAY ================= -->
+<!-- SIDEBAR -->
 
 <div
   class="overlay"
@@ -337,16 +509,16 @@ body{
 </div>
 
 
-<!-- ================= SIDEBAR ================= -->
+<div
+  class="sidebar"
+  id="sidebar">
 
-<div class="sidebar" id="sidebar">
-
-  <div class="sideTitle">
+  <div class="sidebarTitle">
 
     <h2>🎛️ Controls</h2>
 
     <button
-      class="closeBtn"
+      class="close"
       onclick="closeSidebar()">
       ✕
     </button>
@@ -355,7 +527,18 @@ body{
 
 
   <button
-    class="sideButton videoBtn"
+    class="sideBtn adminBtn"
+    id="adminButton"
+    onclick="toggleAdminPanel()">
+
+    <span>👑</span>
+    Admin Panel
+
+  </button>
+
+
+  <button
+    class="sideBtn videoBtn"
     onclick="startVideoCall()">
 
     <span>📹</span>
@@ -365,7 +548,7 @@ body{
 
 
   <button
-    class="sideButton audioBtn"
+    class="sideBtn audioBtn"
     onclick="startAudioCall()">
 
     <span>🎙️</span>
@@ -375,7 +558,7 @@ body{
 
 
   <button
-    class="sideButton muteBtn"
+    class="sideBtn muteBtn"
     onclick="toggleMute()">
 
     <span>🔇</span>
@@ -385,7 +568,7 @@ body{
 
 
   <button
-    class="sideButton cameraBtn"
+    class="sideBtn cameraBtn"
     onclick="toggleCamera()">
 
     <span>📷</span>
@@ -395,17 +578,17 @@ body{
 
 
   <button
-    class="sideButton mirrorBtn"
+    class="sideBtn mirrorBtn"
     onclick="toggleMirror()">
 
     <span>🔄</span>
-    Mirror ON / OFF
+    Mirror
 
   </button>
 
 
   <button
-    class="sideButton backgroundBtn"
+    class="sideBtn bgBtn"
     onclick="toggleBackground()">
 
     <span>🖼️</span>
@@ -415,17 +598,17 @@ body{
 
 
   <button
-    class="sideButton shareBtn"
-    onclick="shareLink()">
+    class="sideBtn shareBtn"
+    onclick="shareInvite()">
 
     <span>📤</span>
-    Share Link
+    Share Invite
 
   </button>
 
 
   <button
-    class="sideButton endBtn"
+    class="sideBtn endBtn"
     onclick="endCall()">
 
     <span>📞</span>
@@ -436,7 +619,7 @@ body{
 </div>
 
 
-<!-- ================= MAIN VIDEO ================= -->
+<!-- VIDEO -->
 
 <div class="main">
 
@@ -446,7 +629,7 @@ body{
       class="videoBox"
       id="localBox">
 
-      <div class="videoLabel">
+      <div class="label">
         📷 You
       </div>
 
@@ -462,8 +645,8 @@ body{
 
     <div class="videoBox">
 
-      <div class="videoLabel">
-        👤 Family / Guest
+      <div class="label">
+        👤 Guest / Family
       </div>
 
       <video
@@ -479,86 +662,111 @@ body{
 </div>
 
 
-<!-- ================= COMPACT ROOM PANEL ================= -->
+<!-- ADMIN PANEL -->
 
-<div class="bottomPanel">
+<div
+  class="adminPanel"
+  id="adminPanel">
 
-  <input
-    class="smallInput"
-    id="name"
-    placeholder="Name">
+  <h3>👑 Admin Control</h3>
 
-  <input
-    class="smallInput"
-    id="remoteId"
-    placeholder="Room ID">
+  <div>
+    <small>Admin Room ID</small>
+
+    <div
+      class="invite"
+      id="adminId">
+      Creating...
+    </div>
+  </div>
+
 
   <button
-    class="smallButton"
-    onclick="copyRoomID()">
-    ID
+    class="panelBtn"
+    onclick="copyAdminID()">
+
+    🆔 Copy Admin ID
+
   </button>
 
+
+  <div style="margin-top:12px">
+
+    <small>Private Invite Link</small>
+
+    <div
+      class="invite"
+      id="inviteLink">
+      Creating...
+    </div>
+
+  </div>
+
+
   <button
-    class="smallButton"
-    onclick="shareLink()">
-    🔗
+    class="panelBtn"
+    onclick="copyInvite()">
+
+    🔗 Copy Invite Link
+
+  </button>
+
+
+  <button
+    class="panelBtn"
+    onclick="shareInvite()">
+
+    📤 WhatsApp / Share
+
   </button>
 
 </div>
 
 
-<!-- ================= BACKGROUND PANEL ================= -->
+<!-- BACKGROUND -->
 
 <div
   class="bgPanel"
   id="bgPanel">
 
-  <h3>
-    🖼️ Background
-  </h3>
+  <b>🖼️ Background</b>
 
-  <div class="bgGrid">
+  <div class="bgGrid" style="margin-top:10px">
 
     <button
       class="bg1"
-      onclick="setBackground('bg1')">
+      onclick="setBackground('#1e3a8a')">
       🌌 Blue
     </button>
 
     <button
       class="bg2"
-      onclick="setBackground('bg2')">
+      onclick="setBackground('#166534')">
       🌿 Green
     </button>
 
     <button
       class="bg3"
-      onclick="setBackground('bg3')">
+      onclick="setBackground('#7e22ce')">
       💜 Purple
     </button>
 
     <button
       class="bg4"
-      onclick="setBackground('bg4')">
+      onclick="setBackground('#c2410c')">
       🌅 Sunset
     </button>
 
     <button
       class="bg5"
-      onclick="setBackground('bg5')">
+      onclick="setBackground('#f8fafc')">
       ⚪ White
     </button>
 
     <button
       class="bg6"
-      onclick="setBackground('bg6')">
+      onclick="setBackground('#000')">
       ⚫ Dark
-    </button>
-
-    <button
-      onclick="resetBackground()">
-      🔄 Reset
     </button>
 
   </div>
@@ -566,20 +774,110 @@ body{
 </div>
 
 
+<!-- INCOMING CALL -->
+
+<div
+  class="incoming"
+  id="incoming">
+
+  <h2>📞 Incoming Call</h2>
+
+  <p id="callerName">
+    कोई आपको Call कर रहा है
+  </p>
+
+
+  <button
+    class="accept"
+    onclick="acceptCall()">
+
+    ✅ Accept
+
+  </button>
+
+
+  <button
+    class="reject"
+    onclick="rejectCall()">
+
+    ❌ Reject
+
+  </button>
+
+</div>
+
+
+<!-- GUEST JOIN -->
+
+<div
+  class="guestPanel"
+  id="guestPanel">
+
+  <h1>👨‍👩‍👧‍👦</h1>
+
+  <h2>Family Connect</h2>
+
+  <p>
+    Admin से जुड़ने के लिए अपना नाम लिखें
+  </p>
+
+
+  <input
+    id="guestName"
+    placeholder="आपका नाम">
+
+
+  <button
+    class="joinBtn"
+    onclick="joinAdmin()">
+
+    📞 Join Call
+
+  </button>
+
+</div>
+
+
+<!-- COMPACT INFO -->
+
+<div
+  class="bottomInfo"
+  id="bottomInfo">
+
+  <div
+    class="small"
+    id="connectionInfo">
+    Admin Connection
+  </div>
+
+</div>
+
+
 <script>
 
-/* =========================================
+/* ==================================================
    VARIABLES
-========================================= */
+================================================== */
 
-let peer;
+let peer = null;
 
 let localStream = null;
 
 let currentCall = null;
 
-let mirrorEnabled = false;
+let incomingCall = null;
 
+let isAdmin = false;
+
+let mirror = false;
+
+
+/* ==================================================
+   ELEMENTS
+================================================== */
+
+const status =
+  document.getElementById("status");
 
 const localVideo =
   document.getElementById("localVideo");
@@ -587,154 +885,386 @@ const localVideo =
 const remoteVideo =
   document.getElementById("remoteVideo");
 
-const localBox =
-  document.getElementById("localBox");
-
-const statusText =
-  document.getElementById("status");
-
 const sidebar =
   document.getElementById("sidebar");
 
 const overlay =
   document.getElementById("overlay");
 
+const adminPanel =
+  document.getElementById("adminPanel");
+
+const incoming =
+  document.getElementById("incoming");
+
+const guestPanel =
+  document.getElementById("guestPanel");
+
 const bgPanel =
   document.getElementById("bgPanel");
 
+const localBox =
+  document.getElementById("localBox");
 
-/* =========================================
-   SIDEBAR
-========================================= */
 
-function openSidebar(){
+/* ==================================================
+   URL
+================================================== */
 
-  sidebar.classList.add("open");
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
 
-  overlay.classList.add("show");
+const invite =
+  params.get("invite");
+
+
+/* ==================================================
+   ADMIN ID STORAGE
+================================================== */
+
+/*
+  पहली बार browser में Admin ID बनेगी।
+  उसी browser में वापस आने पर वही ID रहेगी।
+*/
+
+let savedAdminID =
+  localStorage.getItem(
+    "family_admin_peer_id"
+  );
+
+
+/* ==================================================
+   START ADMIN
+================================================== */
+
+if(!invite){
+
+  isAdmin = true;
+
+  startAdmin();
 
 }
 
 
-function closeSidebar(){
+/* ==================================================
+   START ADMIN PEER
+================================================== */
 
-  sidebar.classList.remove("open");
+function startAdmin(){
 
-  overlay.classList.remove("show");
+  if(savedAdminID){
+
+    peer =
+      new Peer(savedAdminID);
+
+  }
+
+  else{
+
+    peer =
+      new Peer();
+
+  }
+
+
+  peer.on(
+    "open",
+    function(id){
+
+      savedAdminID = id;
+
+      localStorage.setItem(
+        "family_admin_peer_id",
+        id
+      );
+
+
+      document.getElementById(
+        "adminId"
+      ).textContent = id;
+
+
+      createInvite(id);
+
+
+      status.textContent =
+        "● Admin Online";
+
+    }
+  );
+
+
+  peer.on(
+    "call",
+    function(call){
+
+      incomingCall = call;
+
+      document.getElementById(
+        "callerName"
+      ).textContent =
+        "👤 कोई व्यक्ति आपसे जुड़ना चाहता है";
+
+
+      incoming.classList.add(
+        "show"
+      );
+
+    }
+  );
+
+
+  peer.on(
+    "error",
+    function(error){
+
+      console.error(error);
+
+      status.textContent =
+        "● Connection Error";
+
+    }
+  );
 
 }
 
 
-/* =========================================
-   PEER
-========================================= */
+/* ==================================================
+   GUEST
+================================================== */
 
-peer = new Peer();
+if(invite){
 
+  isAdmin = false;
 
-peer.on("open",function(id){
-
-  statusText.textContent =
-    "● Online";
-
-  createShareLink(id);
-
-});
+  guestPanel.classList.remove(
+    "hidden"
+  );
 
 
-/* =========================================
-   INCOMING CALL
-========================================= */
+  /*
+    Guest अपना अलग Peer बनाता है।
+  */
 
-peer.on("call",async function(call){
+  peer =
+    new Peer();
 
-  currentCall = call;
+
+  peer.on(
+    "open",
+    function(){
+
+      status.textContent =
+        "● Ready";
+
+    }
+  );
+
+
+  peer.on(
+    "error",
+    function(error){
+
+      console.error(error);
+
+      alert(
+        "Connection Error: " +
+        error.message
+      );
+
+    }
+  );
+
+}
+
+
+/* ==================================================
+   CREATE INVITE
+================================================== */
+
+function createInvite(adminID){
+
+  const base =
+    window.location.origin +
+    window.location.pathname;
+
+
+  const link =
+    base +
+    "?invite=" +
+    encodeURIComponent(
+      adminID
+    );
+
+
+  document.getElementById(
+    "inviteLink"
+  ).textContent =
+    link;
+
+}
+
+
+/* ==================================================
+   GUEST JOIN ADMIN
+================================================== */
+
+async function joinAdmin(){
+
+  const name =
+    document
+      .getElementById("guestName")
+      .value
+      .trim();
+
+
+  if(!name){
+
+    alert(
+      "कृपया अपना नाम लिखें।"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Invite में Admin Peer ID है।
+  */
+
+  const adminID =
+    invite;
+
 
   try{
 
     const stream =
-      await startLocalMedia(true);
+      await startMedia(true);
 
-    call.answer(stream);
 
-    call.on(
+    currentCall =
+      peer.call(
+        adminID,
+        stream,
+        {
+          metadata:{
+            name:name
+          }
+        }
+      );
+
+
+    currentCall.on(
       "stream",
       function(remoteStream){
 
         remoteVideo.srcObject =
           remoteStream;
 
-        statusText.textContent =
+        status.textContent =
+          "● Connected";
+
+        guestPanel.style.display =
+          "none";
+
+      }
+    );
+
+
+    currentCall.on(
+      "close",
+      function(){
+
+        endCall();
+
+      }
+    );
+
+    status.textContent =
+      "● Calling Admin...";
+
+  }
+
+  catch(error){
+
+    alert(
+      "Camera/Microphone permission दें।\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   ADMIN ACCEPT
+================================================== */
+
+async function acceptCall(){
+
+  if(!incomingCall){
+
+    return;
+
+  }
+
+
+  incoming.classList.remove(
+    "show"
+  );
+
+
+  try{
+
+    const stream =
+      await startMedia(true);
+
+
+    incomingCall.answer(
+      stream
+    );
+
+
+    currentCall =
+      incomingCall;
+
+
+    incomingCall.on(
+      "stream",
+      function(remoteStream){
+
+        remoteVideo.srcObject =
+          remoteStream;
+
+        status.textContent =
           "● Connected";
 
       }
     );
 
-  }
-  catch(error){
 
-    alert(
-      "Camera/Microphone permission required."
-    );
+    incomingCall.on(
+      "close",
+      function(){
 
-  }
-
-});
-
-
-/* =========================================
-   START VIDEO CALL
-========================================= */
-
-async function startVideoCall(){
-
-  const remoteId =
-    document
-      .getElementById("remoteId")
-      .value
-      .trim();
-
-
-  if(!remoteId){
-
-    alert("Room ID डालें।");
-
-    return;
-
-  }
-
-
-  try{
-
-    const stream =
-      await startLocalMedia(true);
-
-
-    currentCall =
-      peer.call(
-        remoteId,
-        stream
-      );
-
-
-    currentCall.on(
-      "stream",
-      function(remoteStream){
-
-        remoteVideo.srcObject =
-          remoteStream;
-
-        statusText.textContent =
-          "● Video Connected";
+        endCall();
 
       }
     );
 
+
+    incomingCall = null;
+
   }
+
   catch(error){
 
     alert(
-      error.message
+      "Camera/Microphone permission दें।"
     );
 
   }
@@ -742,71 +1272,37 @@ async function startVideoCall(){
 }
 
 
-/* =========================================
-   AUDIO CALL
-========================================= */
+/* ==================================================
+   REJECT
+================================================== */
 
-async function startAudioCall(){
+function rejectCall(){
 
-  const remoteId =
-    document
-      .getElementById("remoteId")
-      .value
-      .trim();
+  if(incomingCall){
 
+    incomingCall.close();
 
-  if(!remoteId){
-
-    alert("Room ID डालें।");
-
-    return;
+    incomingCall = null;
 
   }
 
 
-  try{
-
-    const stream =
-      await startLocalMedia(false);
-
-
-    currentCall =
-      peer.call(
-        remoteId,
-        stream
-      );
+  incoming.classList.remove(
+    "show"
+  );
 
 
-    currentCall.on(
-      "stream",
-      function(remoteStream){
-
-        remoteVideo.srcObject =
-          remoteStream;
-
-        statusText.textContent =
-          "● Audio Connected";
-
-      }
-    );
-
-  }
-  catch(error){
-
-    alert(
-      error.message
-    );
-
-  }
+  status.textContent =
+    "● Call Rejected";
 
 }
 
 
-/* =========================================
-   LOCAL MEDIA
-========================================= */
+/* ==================================================
+   MEDIA
+================================================== */
 
-async function startLocalMedia(video){
+async function startMedia(video){
 
   if(localStream){
 
@@ -840,16 +1336,56 @@ async function startLocalMedia(video){
 }
 
 
-/* =========================================
-   MUTE
-========================================= */
+/* ==================================================
+   VIDEO CALL ADMIN
+================================================== */
+
+async function startVideoCall(){
+
+  if(!isAdmin){
+
+    return;
+
+  }
+
+
+  alert(
+    "Admin को Guest की incoming call का इंतजार करना है।"
+  );
+
+}
+
+
+/* ==================================================
+   AUDIO CALL ADMIN
+================================================== */
+
+async function startAudioCall(){
+
+  if(!isAdmin){
+
+    return;
+
+  }
+
+
+  alert(
+    "Guest से Incoming Call आने पर Accept करें।"
+  );
+
+}
+
+
+/* ==================================================
+   MIC
+================================================== */
 
 function toggleMute(){
 
   if(!localStream){
 
     alert(
-      "पहले Call शुरू करें।"
+      "पहले Call connect करें।"
     );
 
     return;
@@ -858,35 +1394,35 @@ function toggleMute(){
 
 
   const tracks =
-    localStream
-      .getAudioTracks();
+    localStream.getAudioTracks();
 
 
-  if(!tracks.length)return;
+  if(tracks.length){
+
+    tracks[0].enabled =
+      !tracks[0].enabled;
 
 
-  tracks[0].enabled =
-    !tracks[0].enabled;
+    status.textContent =
+      tracks[0].enabled
+      ? "🎙️ Mic ON"
+      : "🔇 Mic OFF";
 
-
-  statusText.textContent =
-    tracks[0].enabled
-    ? "🎙️ Mic ON"
-    : "🔇 Mic OFF";
+  }
 
 }
 
 
-/* =========================================
+/* ==================================================
    CAMERA
-========================================= */
+================================================== */
 
 function toggleCamera(){
 
   if(!localStream){
 
     alert(
-      "पहले Video Call शुरू करें।"
+      "पहले Video Call करें।"
     );
 
     return;
@@ -895,14 +1431,13 @@ function toggleCamera(){
 
 
   const tracks =
-    localStream
-      .getVideoTracks();
+    localStream.getVideoTracks();
 
 
   if(!tracks.length){
 
     alert(
-      "Audio Call में Camera नहीं है।"
+      "Video available नहीं है।"
     );
 
     return;
@@ -914,7 +1449,7 @@ function toggleCamera(){
     !tracks[0].enabled;
 
 
-  statusText.textContent =
+  status.textContent =
     tracks[0].enabled
     ? "📷 Camera ON"
     : "📷 Camera OFF";
@@ -922,86 +1457,69 @@ function toggleCamera(){
 }
 
 
-/* =========================================
+/* ==================================================
    MIRROR
-========================================= */
+================================================== */
 
 function toggleMirror(){
 
-  mirrorEnabled =
-    !mirrorEnabled;
+  mirror =
+    !mirror;
 
 
   localVideo.style.transform =
-    mirrorEnabled
+    mirror
     ? "scaleX(-1)"
     : "scaleX(1)";
 
 
-  statusText.textContent =
-    mirrorEnabled
+  status.textContent =
+    mirror
     ? "🔄 Mirror ON"
     : "🔄 Mirror OFF";
 
 }
 
 
-/* =========================================
+/* ==================================================
    BACKGROUND
-========================================= */
+================================================== */
 
 function toggleBackground(){
 
-  bgPanel.classList.toggle("show");
+  bgPanel.classList.toggle(
+    "show"
+  );
 
 }
 
 
-function setBackground(type){
+function setBackground(color){
 
-  localBox.classList.remove(
-    "bg1",
-    "bg2",
-    "bg3",
-    "bg4",
-    "bg5",
-    "bg6"
-  );
+  localBox.style.background =
+    color;
 
 
-  localBox.classList.add(type);
-
-  statusText.textContent =
+  status.textContent =
     "🖼️ Background Changed";
 
 }
 
 
-function resetBackground(){
-
-  localBox.classList.remove(
-    "bg1",
-    "bg2",
-    "bg3",
-    "bg4",
-    "bg5",
-    "bg6"
-  );
-
-}
-
-
-/* =========================================
+/* ==================================================
    END CALL
-========================================= */
+================================================== */
 
 function endCall(){
 
   if(currentCall){
 
     try{
+
       currentCall.close();
+
     }
+
     catch(e){}
 
     currentCall = null;
@@ -1022,50 +1540,77 @@ function endCall(){
   }
 
 
-  localVideo.srcObject = null;
+  localVideo.srcObject =
+    null;
 
-  remoteVideo.srcObject = null;
-
-  statusText.textContent =
-    "● Ready";
-
-}
+  remoteVideo.srcObject =
+    null;
 
 
-/* =========================================
-   SHARE LINK
-========================================= */
-
-function createShareLink(id){
-
-  const url =
-    window.location.origin +
-    window.location.pathname +
-    "?room=" +
-    encodeURIComponent(id);
-
-
-  window.familyConnectLink =
-    url;
+  status.textContent =
+    isAdmin
+    ? "● Admin Online"
+    : "● Ready";
 
 }
 
 
-async function shareLink(){
+/* ==================================================
+   COPY ADMIN ID
+================================================== */
+
+function copyAdminID(){
+
+  const id =
+    savedAdminID;
+
+
+  navigator
+    .clipboard
+    .writeText(id);
+
+
+  alert(
+    "Admin Room ID Copy हो गया।"
+  );
+
+}
+
+
+/* ==================================================
+   COPY INVITE
+================================================== */
+
+function copyInvite(){
 
   const link =
-    window.familyConnectLink;
+    document.getElementById(
+      "inviteLink"
+    ).textContent;
 
 
-  if(!link){
+  navigator
+    .clipboard
+    .writeText(link);
 
-    alert(
-      "Link अभी तैयार नहीं है।"
-    );
 
-    return;
+  alert(
+    "Invite Link Copy हो गया।"
+  );
 
-  }
+}
+
+
+/* ==================================================
+   SHARE INVITE
+================================================== */
+
+async function shareInvite(){
+
+  const link =
+    document.getElementById(
+      "inviteLink"
+    ).textContent;
 
 
   if(navigator.share){
@@ -1078,24 +1623,27 @@ async function shareLink(){
           "Family Connect",
 
         text:
-          "Video/Audio Call के लिए जुड़ें",
+          "मुझसे Video/Audio Call पर जुड़ने के लिए इस Link को खोलें:",
 
         url:link
 
       });
 
     }
+
     catch(e){}
 
   }
+
   else{
 
-    await navigator
+    navigator
       .clipboard
       .writeText(link);
 
+
     alert(
-      "Share Link Copy हो गया।"
+      "Invite Link Copy हो गया। अब WhatsApp पर भेजें।"
     );
 
   }
@@ -1103,88 +1651,54 @@ async function shareLink(){
 }
 
 
-/* =========================================
-   COPY ROOM ID
-========================================= */
+/* ==================================================
+   ADMIN PANEL
+================================================== */
 
-function copyRoomID(){
+function toggleAdminPanel(){
 
-  const id =
-    peer.id;
-
-
-  if(!id){
-
-    alert(
-      "Room ID अभी तैयार नहीं है।"
-    );
+  if(!isAdmin){
 
     return;
 
   }
 
 
-  navigator
-    .clipboard
-    .writeText(id);
-
-
-  statusText.textContent =
-    "✅ Room ID Copied";
-
-}
-
-
-/* =========================================
-   AUTO ROOM ID
-========================================= */
-
-const params =
-  new URLSearchParams(
-    window.location.search
+  adminPanel.classList.toggle(
+    "show"
   );
 
-
-const room =
-  params.get("room");
+}
 
 
-if(room){
+/* ==================================================
+   SIDEBAR
+================================================== */
 
-  document
-    .getElementById("remoteId")
-    .value = room;
+function openSidebar(){
+
+  sidebar.classList.add(
+    "open"
+  );
+
+  overlay.classList.add(
+    "show"
+  );
 
 }
 
 
-/* =========================================
-   ERROR
-========================================= */
+function closeSidebar(){
 
-peer.on(
-  "error",
-  function(error){
+  sidebar.classList.remove(
+    "open"
+  );
 
-    console.error(error);
+  overlay.classList.remove(
+    "show"
+  );
 
-    statusText.textContent =
-      "● Connection Error";
-
-
-    if(
-      error.type ===
-      "peer-unavailable"
-    ){
-
-      alert(
-        "सामने वाला अभी Online नहीं है।"
-      );
-
-    }
-
-  }
-);
+}
 
 </script>
 
