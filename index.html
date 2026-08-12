@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Family Connect</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 30px 22px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .logo {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #dbeafe;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            margin-top: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .video {
+            background: #22c55e;
+            color: white;
+        }
+
+        .audio {
+            background: #2563eb;
+            color: white;
+        }
+
+        .copy {
+            background: #f59e0b;
+            color: white;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .room {
+            margin-top: 22px;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            word-break: break-all;
+            font-size: 14px;
+            color: #bfdbfe;
+        }
+
+        .status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #bbf7d0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">👨‍👩‍👧‍👦</div>
+
+        <h1>Family Connect</h1>
+
+        <div class="subtitle">
+            अपने परिवार या दोस्तों से<br>
+            Video या Audio Call से जुड़ें
+        </div>
+
+        <input type="text" id="name" placeholder="अपना नाम लिखें" autocomplete="name">
+
+        <button class="video" onclick="startCall('video')">
+            📹 Video Call
+        </button>
+
+        <button class="audio" onclick="startCall('audio')">
+            🎙️ Audio Call
+        </button>
+
+        <button class="copy" onclick="copyLink()">
+            🔗 Link Copy करें
+        </button>
+
+        <div class="room" id="roomLink">
+            आपका Room Link यहाँ दिखाई देगा
+        </div>
+
+        <div class="status" id="status">
+            Ready to Connect
+        </div>
+
+    </div>
+
+    <script>
+
+        // Unique room ID
+        function createRoomID() {
+            return Math.random()
+                .toString(36)
+                .substring(2, 10)
+                .toUpperCase();
+        }
+
+        // Create/share room
+        function startCall(type) {
+
+            const name = document.getElementById("name").value.trim();
+
+            if (!name) {
+                alert("कृपया पहले अपना नाम लिखें।");
+                return;
+            }
+
+            const room = createRoomID();
+
+            const baseURL =
+                window.location.origin +
+                window.location.pathname;
+
+            const link =
+                baseURL +
+                "?room=" +
+                room +
+                "&type=" +
+                type;
+
+            document.getElementById("roomLink").textContent = link;
+
+            document.getElementById("status").textContent =
+                type === "video"
+                    ? "📹 Video Room तैयार है"
+                    : "🎙️ Audio Room तैयार है";
+
+            navigator.clipboard.writeText(link)
+                .then(() => {
+                    alert(
+                        "Room Link तैयार है और Copy हो गया है।\n\n" +
+                        "अब यह Link परिवार या दोस्त को भेज सकते हैं।"
+                    );
+                })
+                .catch(() => {
+                    alert("Room Link तैयार है। इसे Copy करके भेजें।");
+                });
+        }
+
+        // Copy existing link
+        function copyLink() {
+
+            const link =
+                document.getElementById("roomLink").textContent;
+
+            if (!link || link.includes("यहाँ दिखाई देगा")) {
+                alert("पहले Video Call या Audio Call दबाएँ।");
+                return;
+            }
+
+            navigator.clipboard.writeText(link);
+
+            document.getElementById("status").textContent =
+                "✅ Link Copy हो गया";
+        }
+
+    </script>
+
+</body>
+
+</html>
