@@ -844,26 +844,19 @@ async function(){
     Firestore invite document
     */
 
-    await addDoc(
-      collection(
-        db,
-        "invites"
-      ),
-      {
-
-        token:token,
-
-        adminUid:
-          currentUser.uid,
-
-        createdAt:
-          serverTimestamp(),
-
-        active:true
-
-      }
-    );
-
+   await setDoc(
+  doc(
+    db,
+    "invites",
+    token
+  ),
+  {
+    token: token,
+    adminUid: currentUser.uid,
+    createdAt: serverTimestamp(),
+    active: true
+  }
+);
 
     /*
     Guest URL
