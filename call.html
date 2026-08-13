@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Family Connect - Call</title>
+
+    <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #020617;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .header {
+            height: 58px;
+            background: #0f172a;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+        }
+
+        .menu {
+            width: 42px;
+            height: 42px;
+            border: 0;
+            border-radius: 10px;
+            background: #1e293b;
+            color: white;
+            font-size: 21px;
+        }
+
+        .title {
+            margin-left: 12px;
+            font-weight: bold;
+        }
+
+        .status {
+            margin-left: auto;
+            color: #86efac;
+            font-size: 12px;
+        }
+
+        .main {
+            height: calc(100vh - 58px);
+            padding: 8px;
+        }
+
+        .videos {
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .videoBox {
+            position: relative;
+            background: #000;
+            border: 1px solid #334155;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .label {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            background: rgba(0, 0, 0, .65);
+            padding: 6px 9px;
+            border-radius: 7px;
+            font-size: 12px;
+            z-index: 3;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: -260px;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid #334155;
+            z-index: 100;
+            padding: 18px;
+            transition: .25s;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .close {
+            float: right;
+            border: 0;
+            background: #1e293b;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .sideBtn {
+            width: 100%;
+            height: 46px;
+            border: 0;
+            border-radius: 9px;
+            margin-top: 9px;
+            color: white;
+            background: #1e293b;
+            text-align: left;
+            padding: 0 13px;
+            font-size: 14px;
+        }
+
+        .end {
+            background: #dc2626;
+        }
+
+        .bottom {
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 50;
+        }
+
+        .control {
+            width: 48px;
+            height: 48px;
+            border: 0;
+            border-radius: 50%;
+            background: #1e293b;
+            color: white;
+            font-size: 19px;
+        }
+
+        .endControl {
+            background: #dc2626;
+        }
+
+        @media(max-width:700px) {
+
+            .videos {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="header">
+
+        <button class="menu" onclick="openMenu()">
+
+            ☰
+
+        </button>
+
+        <div class="title">
+            👨‍👩‍👧‍👦 Family Connect
+        </div>
+
+        <div class="status" id="status">
+
+            Connecting...
+
+        </div>
+
+    </div>
+
+
+    <div class="sidebar" id="sidebar">
+
+        <button class="close" onclick="closeMenu()">
+
+            ✕
+
+        </button>
+
+        <h2>
+            🎛️ Controls
+        </h2>
+
+        <button class="sideBtn" onclick="toggleMic()">
+
+            🎙️ Mic ON / OFF
+
+        </button>
+
+        <button class="sideBtn" onclick="toggleCamera()">
+
+            📷 Camera ON / OFF
+
+        </button>
+
+        <button class="sideBtn" onclick="toggleMirror()">
+
+            🔄 Mirror
+
+        </button>
+
+        <button class="sideBtn" onclick="changeBackground()">
+
+            🖼️ Background
+
+        </button>
+
+        <button class="sideBtn end" onclick="endCall()">
+
+            📞 End Call
+
+        </button>
+
+    </div>
+
+
+    <div class="main">
+
+        <div class="videos">
+
+            <div class="videoBox">
+
+                <div class="label">
+                    📷 You
+                </div>
+
+                <video id="localVideo" autoplay muted playsinline>
+                </video>
+
+            </div>
+
+
+            <div class="videoBox">
+
+                <div class="label">
+                    👤 Family / Guest
+                </div>
+
+                <video id="remoteVideo" autoplay playsinline>
+                </video>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="bottom">
+
+        <button class="control" onclick="toggleMic()">
+
+            🎙️
+
+        </button>
+
+        <button class="control" onclick="toggleCamera()">
+
+            📷
+
+        </button>
+
+        <button class="control" onclick="toggleMirror()">
+
+            🔄
+
+        </button>
+
+        <button class="control endControl" onclick="endCall()">
+
+            📞
+
+        </button>
+
+    </div>
+
+
+    <script>
+
+        const localVideo =
+            document.getElementById(
+                "localVideo"
+            );
+
+        const remoteVideo =
+            document.getElementById(
+                "remoteVideo"
+            );
+
+        const status =
+            document.getElementById(
+                "status"
+            );
+
+
+        let peer = null;
+
+        let localStream = null;
+
+        let currentCall = null;
+
+        let mirror = false;
+
+
+        /*
+        ==================================================
+        SESSION DATA
+        ==================================================
+        */
+
+        const inviteToken =
+            sessionStorage.getItem(
+                "inviteToken"
+            );
+
+        const guestName =
+            sessionStorage.getItem(
+                "guestName"
+            );
+
+
+        if (!inviteToken) {
+
+            alert(
+                "Invalid Call Session"
+            );
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        /*
+        ==================================================
+        START MEDIA
+        ==================================================
+        */
+
+        async function startMedia() {
+
+            try {
+
+                localStream =
+                    await navigator
+                        .mediaDevices
+                        .getUserMedia({
+
+                            video: true,
+
+                            audio: true
+
+                        });
+
+
+                localVideo.srcObject =
+                    localStream;
+
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Camera और Microphone permission दें।"
+                );
+
+            }
+
+        }
+
+
+        /*
+        ==================================================
+        PEER
+        ==================================================
+        */
+
+        function createPeer() {
+
+            peer =
+                new Peer();
+
+
+            peer.on(
+                "open",
+                function (id) {
+
+                    console.log(
+                        "Guest Peer ID:",
+                        id
+                    );
+
+                    status.textContent =
+                        "🟢 Ready";
+
+                    /*
+                      अभी Guest Peer ID तैयार है।
+                      अगले signaling step में
+                      Admin तक भेजी जाएगी।
+                    */
+
+                }
+            );
+
+
+            peer.on(
+                "call",
+                function (call) {
+
+                    currentCall =
+                        call;
+
+
+                    call.answer(
+                        localStream
+                    );
+
+
+                    call.on(
+                        "stream",
+                        function (stream) {
+
+                            remoteVideo.srcObject =
+                                stream;
+
+                            status.textContent =
+                                "🟢 Connected";
+
+                        }
+                    );
+
+                }
+            );
+
+
+            peer.on(
+                "error",
+                function (error) {
+
+                    console.error(error);
+
+                    status.textContent =
+                        "🔴 Connection Error";
+
+                }
+            );
+
+        }
+
+
+        /*
+        ==================================================
+        MIC
+        ==================================================
+        */
+
+        function toggleMic() {
+
+            if (!localStream) {
+
+                return;
+
+            }
+
+
+            localStream
+                .getAudioTracks()
+                .forEach(
+                    function (track) {
+
+                        track.enabled =
+                            !track.enabled;
+
+                    }
+                );
+
+        }
+
+
+        /*
+        ==================================================
+        CAMERA
+        ==================================================
+        */
+
+        function toggleCamera() {
+
+            if (!localStream) {
+
+                return;
+
+            }
+
+
+            localStream
+                .getVideoTracks()
+                .forEach(
+                    function (track) {
+
+                        track.enabled =
+                            !track.enabled;
+
+                    }
+                );
+
+        }
+
+
+        /*
+        ==================================================
+        MIRROR
+        ==================================================
+        */
+
+        function toggleMirror() {
+
+            mirror =
+                !mirror;
+
+
+            localVideo.style.transform =
+                mirror
+                    ? "scaleX(-1)"
+                    : "scaleX(1)";
+
+        }
+
+
+        /*
+        ==================================================
+        BACKGROUND
+        ==================================================
+        */
+
+        function changeBackground() {
+
+            const colors = [
+
+                "#000000",
+                "#172554",
+                "#064e3b",
+                "#3b0764",
+                "#7c2d12"
+
+            ];
+
+
+            const box =
+                document.querySelector(
+                    ".videoBox"
+                );
+
+
+            let current =
+                Number(
+                    box.dataset.bg || 0
+                );
+
+
+            current++;
+
+
+            if (
+                current >= colors.length
+            ) {
+
+                current = 0;
+
+            }
+
+
+            box.style.background =
+                colors[current];
+
+            box.dataset.bg =
+                current;
+
+        }
+
+
+        /*
+        ==================================================
+        END CALL
+        ==================================================
+        */
+
+        function endCall() {
+
+            if (currentCall) {
+
+                currentCall.close();
+
+            }
+
+
+            if (localStream) {
+
+                localStream
+                    .getTracks()
+                    .forEach(
+                        function (track) {
+
+                            track.stop();
+
+                        }
+                    );
+
+            }
+
+
+            status.textContent =
+                "Call Ended";
+
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        "guest.html";
+
+                },
+                500
+            );
+
+        }
+
+
+        /*
+        ==================================================
+        MENU
+        ==================================================
+        */
+
+        function openMenu() {
+
+            document
+                .getElementById(
+                    "sidebar"
+                )
+                .classList.add(
+                    "open"
+                );
+
+        }
+
+
+        function closeMenu() {
+
+            document
+                .getElementById(
+                    "sidebar"
+                )
+                .classList.remove(
+                    "open"
+                );
+
+        }
+
+
+        /*
+        ==================================================
+        START
+        ==================================================
+        */
+
+        (async function () {
+
+            await startMedia();
+
+            createPeer();
+
+        })();
+
+    </script>
+
+</body>
+
+</html>
