@@ -1,375 +1,695 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-<title>Family Connect - Admin</title>
+  <title>Family Connect - Admin Login</title>
 
-<style>
+  <style>
 
-*{
-  box-sizing:border-box;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:Arial,sans-serif;
-  background:#020617;
-  color:white;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(
+          circle at top,
+          #172554 0%,
+          #020617 55%,
+          #000 100%
+        );
+      color: white;
+    }
 
-.loginBox{
-  width:min(400px,92%);
-  background:#0f172a;
-  border:1px solid #334155;
-  border-radius:20px;
-  padding:28px;
-  box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
+    .loginBox {
+      width: min(410px, 92%);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid #334155;
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.6);
+    }
 
-.logo{
-  text-align:center;
-  font-size:48px;
-}
+    .logo {
+      text-align: center;
+      font-size: 55px;
+      margin-bottom: 5px;
+    }
 
-h1{
-  text-align:center;
-  margin:8px 0;
-}
+    h1 {
+      text-align: center;
+      margin: 5px 0;
+      font-size: 28px;
+    }
 
-.subtitle{
-  text-align:center;
-  color:#94a3b8;
-  font-size:14px;
-  margin-bottom:25px;
-}
+    .subtitle {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
 
-label{
-  display:block;
-  margin:12px 0 6px;
-  font-size:13px;
-  color:#cbd5e1;
-}
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
 
-input{
-  width:100%;
-  height:48px;
-  border:1px solid #334155;
-  border-radius:10px;
-  background:#020617;
-  color:white;
-  padding:0 13px;
-  font-size:15px;
-  outline:none;
-}
+    input {
+      width: 100%;
+      height: 50px;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      background: #020617;
+      color: white;
+      padding: 0 14px;
+      font-size: 15px;
+      outline: none;
+    }
 
-input:focus{
-  border-color:#3b82f6;
-}
+    input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59,130,246,.15);
+    }
 
-.loginBtn{
-  width:100%;
-  height:48px;
-  border:0;
-  border-radius:10px;
-  margin-top:20px;
-  background:#2563eb;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
+    .passwordRow {
+      position: relative;
+    }
 
-.loginBtn:disabled{
-  opacity:.6;
-}
+    .showPassword {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      height: 34px;
+      border: 0;
+      border-radius: 7px;
+      background: #1e293b;
+      color: white;
+      cursor: pointer;
+      padding: 0 10px;
+    }
 
-.message{
-  margin-top:15px;
-  text-align:center;
-  font-size:13px;
-  min-height:18px;
-}
+    .loginBtn {
+      width: 100%;
+      height: 50px;
+      border: 0;
+      border-radius: 10px;
+      margin-top: 22px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s;
+    }
 
-.footer{
-  text-align:center;
-  margin-top:22px;
-  color:#64748b;
-  font-size:11px;
-}
+    .loginBtn:hover {
+      background: #1d4ed8;
+    }
 
-</style>
+    .loginBtn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      min-height: 22px;
+      margin-top: 15px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .security {
+      text-align: center;
+      margin-top: 22px;
+      color: #64748b;
+      font-size: 11px;
+    }
+
+    .connection {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+  </style>
 
 </head>
+
 
 <body>
 
 
-<div class="loginBox">
+  <div class="loginBox">
 
-  <div class="logo">
-    👑
+    <div class="logo">
+      👑
+    </div>
+
+    <h1>
+      Admin Login
+    </h1>
+
+    <div class="subtitle">
+      Family Connect Control Center
+    </div>
+
+
+    <!-- EMAIL -->
+
+    <label for="email">
+      Admin Email
+    </label>
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Enter admin email"
+      autocomplete="username">
+
+
+    <!-- PASSWORD -->
+
+    <label for="password">
+      Password
+    </label>
+
+    <div class="passwordRow">
+
+      <input
+        id="password"
+        type="password"
+        placeholder="Enter password"
+        autocomplete="current-password">
+
+      <button
+        type="button"
+        class="showPassword"
+        id="showPasswordBtn"
+        onclick="togglePassword()">
+
+        👁️
+
+      </button>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <button
+      type="button"
+      class="loginBtn"
+      id="loginBtn"
+      onclick="adminLogin()">
+
+      🔐 Login
+
+    </button>
+
+
+    <!-- MESSAGE -->
+
+    <div
+      class="message"
+      id="message">
+    </div>
+
+
+    <div class="security">
+      🔒 Secure Admin Access
+    </div>
+
+    <div
+      class="connection"
+      id="connection">
+
+      Connecting to Firebase...
+
+    </div>
+
   </div>
 
-  <h1>
-    Admin Login
-  </h1>
 
-  <div class="subtitle">
-    Family Connect Control Center
-  </div>
+  <!-- ==================================================
+       FIREBASE
+       ONLY ONE FIREBASE SCRIPT
+  ================================================== -->
 
+  <script type="module">
 
-  <label>
-    Email
-  </label>
+    /*
+    =====================================================
+    FIREBASE CONFIGURATION
+    =====================================================
 
-  <input
-    id="email"
-    type="email"
-    placeholder="Admin Email"
-    autocomplete="username">
+    नीचे अपना Firebase configuration डालें।
 
-
-  <label>
-    Password
-  </label>
-
-  <input
-    id="password"
-    type="password"
-    placeholder="Password"
-    autocomplete="current-password">
-
-
-  <button
-    class="loginBtn"
-    id="loginBtn"
-    onclick="adminLogin()">
-
-    🔐 Login
-
-  </button>
+    Firebase Console:
+    Project Settings
+    →
+    General
+    →
+    Your apps
+    →
+    Web App
+    →
+    SDK setup and configuration
+    →
+    Config
+    =====================================================
+    */
 
 
-  <div
-    class="message"
-    id="message">
-  </div>
+    const firebaseConfig = {
 
+      apiKey: "YOUR_API_KEY",
 
-  <div class="footer">
-    🔒 Secure Admin Access
-  </div>
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
 
-</div>
+      projectId: "YOUR_PROJECT_ID",
 
+      storageBucket: "YOUR_PROJECT.firebasestorage.app",
 
-<!-- Firebase -->
+      messagingSenderId: "YOUR_SENDER_ID",
 
-<script type="module">
+      appId: "YOUR_APP_ID"
 
-import {
-  initializeApp
-} from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-
-import {
-  getAuth,
-  signInWithEmailAndPassword
-} from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAVHl9WBOHEolcyduGoeLZGPHZnwsQEKfc",
-  authDomain: "family-connect-19bac.firebaseapp.com",
-  projectId: "family-connect-19bac",
-  storageBucket: "family-connect-19bac.firebasestorage.app",
-  messagingSenderId: "728596384464",
-  appId: "1:728596384464:web:e1394868b824e1911dacd5"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth =
-  getAuth(app);
-
-
-/* =========================================
-   LOGIN
-========================================= */
-
-window.adminLogin =
-async function(){
-
-  const email =
-    document
-      .getElementById("email")
-      .value
-      .trim();
-
-  const password =
-    document
-      .getElementById("password")
-      .value;
-
-
-  const message =
-    document
-      .getElementById("message");
-
-  const button =
-    document
-      .getElementById("loginBtn");
-
-
-  if(!email){
-
-    message.textContent =
-      "Email डालें।";
-
-    message.style.color =
-      "#f87171";
-
-    return;
-
-  }
-
-
-  if(!password){
-
-    message.textContent =
-      "Password डालें।";
-
-    message.style.color =
-      "#f87171";
-
-    return;
-
-  }
-
-
-  button.disabled =
-    true;
-
-  button.textContent =
-    "⏳ Login हो रहा है...";
-
-
-  try{
-
-    const result =
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-
-    console.log(
-      "Admin Login:",
-      result.user.uid
-    );
-
-
-    message.textContent =
-      "✅ Login सफल। Dashboard खोल रहे हैं...";
-
-    message.style.color =
-      "#86efac";
+    };
 
 
     /*
-      अगला step:
-      Admin Dashboard
+    =====================================================
+    FIREBASE IMPORT
+    =====================================================
     */
 
-    setTimeout(
-      function(){
-
-        window.location.href =
-          "admin.html";
-
-      },
-      800
-    );
+    import {
+      initializeApp
+    } from
+    "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
-  }
-
-  catch(error){
-
-    console.error(error);
-
-
-    let text =
-      "Login failed.";
+    import {
+      getAuth,
+      signInWithEmailAndPassword
+    } from
+    "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-    if(
-      error.code ===
-      "auth/invalid-credential"
-    ){
+    /*
+    =====================================================
+    INITIALIZE FIREBASE
+    =====================================================
+    */
 
-      text =
-        "Email या Password गलत है।";
+    const firebaseApp =
+      initializeApp(firebaseConfig);
+
+
+    const auth =
+      getAuth(firebaseApp);
+
+
+    /*
+    =====================================================
+    FIREBASE CONNECTION
+    =====================================================
+    */
+
+    document
+      .getElementById("connection")
+      .textContent =
+      "🟢 Firebase Ready";
+
+
+    /*
+    =====================================================
+    LOGIN FUNCTION
+    =====================================================
+    */
+
+    window.adminLogin = async function () {
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+
+      const message =
+        document
+          .getElementById("message");
+
+
+      const button =
+        document
+          .getElementById("loginBtn");
+
+
+      /*
+      -------------------------------
+      VALIDATION
+      -------------------------------
+      */
+
+      if (!email) {
+
+        showMessage(
+          "❌ Admin Email डालें।",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!password) {
+
+        showMessage(
+          "❌ Password डालें।",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      /*
+      -------------------------------
+      LOGIN START
+      -------------------------------
+      */
+
+      button.disabled = true;
+
+      button.textContent =
+        "⏳ Login हो रहा है...";
+
+
+      showMessage(
+        "कृपया प्रतीक्षा करें...",
+        "normal"
+      );
+
+
+      try {
+
+        /*
+        Firebase Authentication
+        */
+
+        const userCredential =
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        const user =
+          userCredential.user;
+
+
+        console.log(
+          "Admin Login Successful"
+        );
+
+
+        console.log(
+          "Admin UID:",
+          user.uid
+        );
+
+
+        showMessage(
+          "✅ Login सफल! Dashboard खोल रहे हैं...",
+          "success"
+        );
+
+
+        /*
+        -------------------------------
+        ADMIN DASHBOARD
+        -------------------------------
+        */
+
+        setTimeout(
+          function () {
+
+            window.location.href =
+              "admin.html";
+
+          },
+          1000
+        );
+
+      }
+
+
+      catch (error) {
+
+        console.error(
+          "Firebase Login Error:",
+          error
+        );
+
+
+        let errorMessage =
+          "Login failed.";
+
+
+        /*
+        -------------------------------
+        FIREBASE ERROR HANDLING
+        -------------------------------
+        */
+
+        switch (error.code) {
+
+          case "auth/invalid-credential":
+
+            errorMessage =
+              "❌ Email या Password गलत है।";
+
+            break;
+
+
+          case "auth/invalid-email":
+
+            errorMessage =
+              "❌ Email सही format में नहीं है।";
+
+            break;
+
+
+          case "auth/user-not-found":
+
+            errorMessage =
+              "❌ यह Admin account Firebase में नहीं मिला।";
+
+            break;
+
+
+          case "auth/wrong-password":
+
+            errorMessage =
+              "❌ Password गलत है।";
+
+            break;
+
+
+          case "auth/user-disabled":
+
+            errorMessage =
+              "❌ यह Admin account disabled है।";
+
+            break;
+
+
+          case "auth/too-many-requests":
+
+            errorMessage =
+              "❌ बहुत ज्यादा Login attempts हुए हैं। थोड़ी देर बाद कोशिश करें।";
+
+            break;
+
+
+          case "auth/network-request-failed":
+
+            errorMessage =
+              "❌ Internet connection check करें।";
+
+            break;
+
+
+          default:
+
+            errorMessage =
+              "❌ " +
+              error.message;
+
+        }
+
+
+        showMessage(
+          errorMessage,
+          "error"
+        );
+
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          "🔐 Login";
+
+      }
+
+    };
+
+
+    /*
+    =====================================================
+    MESSAGE FUNCTION
+    =====================================================
+    */
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      const message =
+        document
+          .getElementById("message");
+
+
+      message.textContent =
+        text;
+
+
+      if (type === "success") {
+
+        message.style.color =
+          "#86efac";
+
+      }
+
+      else if (type === "error") {
+
+        message.style.color =
+          "#f87171";
+
+      }
+
+      else {
+
+        message.style.color =
+          "#94a3b8";
+
+      }
 
     }
 
-    else if(
-      error.code ===
-      "auth/too-many-requests"
-    ){
 
-      text =
-        "बहुत ज्यादा प्रयास हुए हैं। थोड़ी देर बाद कोशिश करें।";
+    /*
+    =====================================================
+    PASSWORD SHOW / HIDE
+    =====================================================
+    */
 
-    }
+    window.togglePassword =
+    function () {
 
-    else if(
-      error.code ===
-      "auth/user-disabled"
-    ){
-
-      text =
-        "यह Admin account disabled है।";
-
-    }
+      const password =
+        document
+          .getElementById("password");
 
 
-    message.textContent =
-      "❌ " + text;
-
-    message.style.color =
-      "#f87171";
+      const button =
+        document
+          .getElementById("showPasswordBtn");
 
 
-    button.disabled =
-      false;
+      if (
+        password.type ===
+        "password"
+      ) {
 
-    button.textContent =
-      "🔐 Login";
+        password.type =
+          "text";
 
-  }
+        button.textContent =
+          "🙈";
 
-};
+      }
 
-</script>
+      else {
+
+        password.type =
+          "password";
+
+        button.textContent =
+          "👁️";
+
+      }
+
+    };
+
+
+    /*
+    =====================================================
+    ENTER KEY LOGIN
+    =====================================================
+    */
+
+    document
+      .getElementById("password")
+      .addEventListener(
+        "keydown",
+        function (event) {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            window.adminLogin();
+
+          }
+
+        }
+      );
+
+  </script>
+
 
 </body>
+
 </html>
