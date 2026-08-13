@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Family Connect - Join</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top,
+                    #172554,
+                    #020617 60%);
+            color: white;
+        }
+
+        .card {
+            width: min(400px, 92%);
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 22px;
+            padding: 28px;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, .6);
+        }
+
+        .logo {
+            font-size: 55px;
+        }
+
+        h1 {
+            margin: 8px 0;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            height: 50px;
+            margin-top: 15px;
+            padding: 0 14px;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            background: #020617;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .join {
+            width: 100%;
+            height: 50px;
+            margin-top: 12px;
+            border: 0;
+            border-radius: 10px;
+            background: #16a34a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .join:disabled {
+            opacity: .6;
+        }
+
+        .message {
+            min-height: 22px;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .security {
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 11px;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="card">
+
+        <div class="logo">
+            👨‍👩‍👧‍👦
+        </div>
+
+        <h1>
+            Family Connect
+        </h1>
+
+        <p>
+            आपको एक private call invitation मिला है।
+        </p>
+
+        <input id="guestName" type="text" placeholder="अपना नाम लिखें" maxlength="40">
+
+        <button class="join" id="joinButton" onclick="joinCall()">
+
+            📞 Join Call
+
+        </button>
+
+        <div class="message" id="message">
+        </div>
+
+        <div class="security">
+            🔒 Private Invitation
+        </div>
+
+    </div>
+
+
+    <script type="module">
+
+
+        /* ==================================================
+           FIREBASE
+        ================================================== */
+
+        import {
+            initializeApp
+        }
+            from
+            "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+        import {
+            getFirestore,
+            doc,
+            getDoc
+        }
+            from
+            "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        /* ==================================================
+           FIREBASE CONFIG
+        ================================================== */
+
+        const firebaseConfig = {
+
+            apiKey: "YOUR_API_KEY",
+
+            authDomain:
+                "YOUR_PROJECT.firebaseapp.com",
+
+            projectId:
+                "YOUR_PROJECT_ID",
+
+            storageBucket:
+                "YOUR_PROJECT.firebasestorage.app",
+
+            messagingSenderId:
+                "YOUR_SENDER_ID",
+
+            appId:
+                "YOUR_APP_ID"
+
+        };
+
+
+        /* ==================================================
+           INITIALIZE
+        ================================================== */
+
+        const app =
+            initializeApp(
+                firebaseConfig
+            );
+
+
+        const db =
+            getFirestore(app);
+
+
+        /* ==================================================
+           INVITE TOKEN
+        ================================================== */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const inviteToken =
+            params.get("invite");
+
+
+        /* ==================================================
+           CHECK INVITE
+        ================================================== */
+
+        if (!inviteToken) {
+
+            showMessage(
+                "❌ यह Invite Link सही नहीं है।",
+                "error"
+            );
+
+            document
+                .getElementById("joinButton")
+                .disabled = true;
+
+        }
+
+
+        /* ==================================================
+           JOIN
+        ================================================== */
+
+        window.joinCall =
+            async function () {
+
+                const name =
+                    document
+                        .getElementById("guestName")
+                        .value
+                        .trim();
+
+
+                if (!name) {
+
+                    showMessage(
+                        "❌ कृपया अपना नाम लिखें।",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (!inviteToken) {
+
+                    showMessage(
+                        "❌ Invalid Invite.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                const button =
+                    document
+                        .getElementById("joinButton");
+
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "⏳ Checking Invite...";
+
+
+                try {
+
+                    /*
+                    Firestore में invite खोजें
+                    */
+
+                    const inviteRef =
+                        doc(
+                            db,
+                            "invites",
+                            inviteToken
+                        );
+
+
+                    const inviteSnapshot =
+                        await getDoc(
+                            inviteRef
+                        );
+
+
+                    /*
+                    Invite मौजूद नहीं है
+                    */
+
+                    if (!inviteSnapshot.exists()) {
+
+                        showMessage(
+                            "❌ Invite नहीं मिला या गलत है।",
+                            "error"
+                        );
+
+                        button.disabled =
+                            false;
+
+                        button.textContent =
+                            "📞 Join Call";
+
+                        return;
+
+                    }
+
+
+                    const invite =
+                        inviteSnapshot.data();
+
+
+                    /*
+                    Active check
+                    */
+
+                    if (
+                        invite.active !== true
+                    ) {
+
+                        showMessage(
+                            "❌ यह Invite अब active नहीं है।",
+                            "error"
+                        );
+
+                        button.disabled =
+                            false;
+
+                        button.textContent =
+                            "📞 Join Call";
+
+                        return;
+
+                    }
+
+
+                    /*
+                    Admin UID मिला
+                    */
+
+                    const adminUid =
+                        invite.adminUid;
+
+
+                    /*
+                    अभी हम guest name सुरक्षित
+                    तरीके से आगे भेजने के लिए
+                    session data तैयार करेंगे।
+                    */
+
+                    sessionStorage.setItem(
+                        "guestName",
+                        name
+                    );
+
+
+                    sessionStorage.setItem(
+                        "inviteToken",
+                        inviteToken
+                    );
+
+
+                    sessionStorage.setItem(
+                        "adminUid",
+                        adminUid
+                    );
+
+
+                    showMessage(
+                        "✅ Invite valid है। Call page खोल रहे हैं...",
+                        "success"
+                    );
+
+
+                    /*
+                    अगले page पर जाएँ
+                    */
+
+                    setTimeout(
+                        function () {
+
+                            window.location.href =
+                                "call.html";
+
+                        },
+                        700
+                    );
+
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+
+                    showMessage(
+                        "❌ Invite check नहीं हो सका: " +
+                        error.message,
+                        "error"
+                    );
+
+
+                    button.disabled =
+                        false;
+
+                    button.textContent =
+                        "📞 Join Call";
+
+                }
+
+            };
+
+
+        /* ==================================================
+           MESSAGE
+        ================================================== */
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            const message =
+                document
+                    .getElementById(
+                        "message"
+                    );
+
+
+            message.textContent =
+                text;
+
+
+            if (type === "success") {
+
+                message.style.color =
+                    "#86efac";
+
+            }
+
+            else {
+
+                message.style.color =
+                    "#f87171";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
