@@ -1,51 +1,34 @@
 <!DOCTYPE html>
 <html lang="hi">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Family Connect - Admin</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  min-height:100vh;
-  font-family:Arial,sans-serif;
   background:#020617;
-  color:white;
-  overflow:hidden;
+  color:#fff;
+  font-family:Arial,sans-serif;
 }
 
-/* ==============================
-   HEADER
-============================== */
-
-.header{
-  height:60px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
+header{
+  height:58px;
   background:#0f172a;
   border-bottom:1px solid #334155;
+  display:flex;
+  align-items:center;
+  padding:0 14px;
+  gap:12px;
 }
 
-.logo{
-  font-weight:bold;
-  font-size:18px;
-}
+.logo{font-weight:bold}
 
 .status{
+  margin-left:auto;
   color:#86efac;
   font-size:12px;
 }
@@ -53,74 +36,54 @@ body{
 .logout{
   border:0;
   background:#dc2626;
-  color:white;
-  padding:8px 13px;
+  color:#fff;
   border-radius:8px;
+  padding:8px 12px;
   cursor:pointer;
 }
 
-/* ==============================
-   MAIN
-============================== */
-
 .main{
-  height:calc(100vh - 60px);
+  min-height:calc(100vh - 58px);
   display:flex;
 }
 
-/* ==============================
-   SIDEBAR
-============================== */
-
 .sidebar{
-  width:70px;
+  width:64px;
   background:#0f172a;
   border-right:1px solid #334155;
   display:flex;
   flex-direction:column;
   align-items:center;
+  gap:9px;
   padding-top:12px;
-  gap:10px;
 }
 
 .sideBtn{
-  width:48px;
-  height:48px;
+  width:46px;
+  height:46px;
   border:0;
-  border-radius:12px;
+  border-radius:11px;
   background:#1e293b;
-  color:white;
-  font-size:20px;
+  color:#fff;
+  font-size:19px;
   cursor:pointer;
 }
 
-.sideBtn:hover{
-  background:#2563eb;
-}
-
-/* ==============================
-   CONTENT
-============================== */
+.sideBtn:hover{background:#2563eb}
 
 .content{
   flex:1;
-  padding:15px;
-  overflow:auto;
+  padding:12px;
 }
 
-/* ==============================
-   VIDEO
-============================== */
-
 .videoArea{
-  width:100%;
-  height:55vh;
+  height:58vh;
   min-height:300px;
   background:#000;
   border:1px solid #334155;
-  border-radius:16px;
-  position:relative;
+  border-radius:15px;
   overflow:hidden;
+  position:relative;
 }
 
 #localVideo{
@@ -128,255 +91,162 @@ body{
   height:100%;
   object-fit:cover;
   display:none;
-  transform:scaleX(1);
 }
 
-.videoMessage{
+.videoText{
   position:absolute;
   inset:0;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   color:#64748b;
-  font-size:15px;
 }
-
-/* ==============================
-   CONTROLS
-============================== */
 
 .controls{
   display:flex;
   justify-content:center;
-  gap:10px;
-  padding:14px 0;
-  flex-wrap:wrap;
+  gap:9px;
+  margin:10px 0;
 }
 
 .control{
+  width:46px;
+  height:46px;
   border:0;
-  background:#1e293b;
-  color:white;
-  width:45px;
-  height:45px;
   border-radius:50%;
-  cursor:pointer;
+  background:#1e293b;
+  color:#fff;
   font-size:18px;
+  cursor:pointer;
 }
 
-.control:hover{
-  background:#2563eb;
-}
-
-.end{
-  background:#dc2626;
-}
-
-/* ==============================
-   PANELS
-============================== */
+.end{background:#dc2626}
 
 .panel{
   background:#0f172a;
   border:1px solid #334155;
-  border-radius:14px;
-  padding:15px;
-  margin-top:12px;
+  border-radius:13px;
+  padding:13px;
+  margin-top:10px;
 }
 
 .panel h3{
-  margin:0 0 12px;
-  font-size:15px;
+  margin:0 0 10px;
+  font-size:14px;
 }
 
 .inviteRow{
   display:flex;
-  gap:8px;
+  gap:7px;
 }
 
-.inviteInput{
+input{
   flex:1;
   min-width:0;
   background:#020617;
-  color:white;
   border:1px solid #334155;
+  color:#fff;
   border-radius:8px;
   padding:10px;
 }
 
-.actionBtn{
+.action{
   border:0;
-  border-radius:8px;
-  padding:10px 14px;
   background:#2563eb;
-  color:white;
+  color:#fff;
+  border-radius:8px;
+  padding:9px 12px;
   cursor:pointer;
-  white-space:nowrap;
 }
 
-.actionBtn:hover{
-  background:#1d4ed8;
-}
-
-.message{
-  margin-top:10px;
-  color:#94a3b8;
+.msg{
+  margin-top:8px;
   font-size:12px;
+  color:#94a3b8;
 }
 
-/* ==============================
-   MOBILE
-============================== */
+.incoming{
+  display:none;
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  width:min(360px,calc(100% - 36px));
+  background:#0f172a;
+  border:1px solid #475569;
+  border-radius:16px;
+  padding:18px;
+  z-index:999;
+  box-shadow:0 20px 70px #000;
+}
+
+.incoming h2{
+  margin:0 0 8px;
+  font-size:18px;
+}
+
+.incoming p{
+  color:#94a3b8;
+}
+
+.accept{
+  background:#16a34a;
+  color:#fff;
+  border:0;
+  padding:10px 15px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.reject{
+  background:#dc2626;
+  color:#fff;
+  border:0;
+  padding:10px 15px;
+  border-radius:8px;
+  cursor:pointer;
+}
 
 @media(max-width:600px){
-
-  .header{
-    padding:0 10px;
-  }
-
-  .logo{
-    font-size:15px;
-  }
-
-  .sidebar{
-    width:58px;
-  }
-
-  .sideBtn{
-    width:42px;
-    height:42px;
-  }
-
-  .content{
-    padding:8px;
-  }
-
-  .videoArea{
-    height:45vh;
-  }
-
-  .inviteRow{
-    flex-direction:column;
-  }
-
+  .inviteRow{flex-direction:column}
+  .sidebar{width:58px}
+  .sideBtn{width:42px;height:42px}
 }
-
 </style>
-
 </head>
-
 
 <body>
 
+<header>
+  <div class="logo">👑 Family Connect Admin</div>
 
-<!-- ==============================
-     HEADER
-============================== -->
-
-<header class="header">
-
-  <div class="logo">
-    👑 Family Connect
+  <div id="status" class="status">
+    Connecting...
   </div>
 
-  <div
-    class="status"
-    id="adminStatus">
-
-    🟢 Checking...
-
-  </div>
-
-  <button
-    class="logout"
-    onclick="logoutAdmin()">
-
+  <button class="logout" id="logoutBtn">
     Logout
-
   </button>
-
 </header>
-
-
-<!-- ==============================
-     MAIN
-============================== -->
 
 <div class="main">
 
-
-  <!-- SIDEBAR -->
-
   <aside class="sidebar">
 
-    <button
-      class="sideBtn"
-      title="Camera"
-      onclick="startCamera()">
+    <button class="sideBtn" id="cameraBtn">📹</button>
 
-      📹
+    <button class="sideBtn" id="micBtn">🎙️</button>
 
-    </button>
+    <button class="sideBtn" id="mirrorBtn">🔄</button>
 
+    <button class="sideBtn" id="bgBtn">🖼️</button>
 
-    <button
-      class="sideBtn"
-      title="Microphone"
-      onclick="toggleMic()">
+    <button class="sideBtn" id="inviteBtn">🔗</button>
 
-      🎙️
-
-    </button>
-
-
-    <button
-      class="sideBtn"
-      title="Mirror"
-      onclick="toggleMirror()">
-
-      🔄
-
-    </button>
-
-
-    <button
-      class="sideBtn"
-      title="Background"
-      onclick="changeBackground()">
-
-      🖼️
-
-    </button>
-
-
-    <button
-      class="sideBtn"
-      title="Create Invite"
-      onclick="createInvite()">
-
-      🔗
-
-    </button>
-
-
-    <button
-      class="sideBtn"
-      title="End Call"
-      onclick="endCall()">
-
-      📞
-
-    </button>
+    <button class="sideBtn" id="endBtn">📞</button>
 
   </aside>
 
-
-  <!-- CONTENT -->
-
   <main class="content">
-
-
-    <!-- VIDEO -->
 
     <div class="videoArea">
 
@@ -387,209 +257,179 @@ body{
         playsinline>
       </video>
 
-      <div
-        class="videoMessage"
-        id="videoMessage">
-
+      <div id="videoText" class="videoText">
         📹 Camera बंद है
-
       </div>
 
     </div>
 
-
-    <!-- CONTROLS -->
-
     <div class="controls">
 
-      <button
-        class="control"
-        onclick="startCamera()"
-        title="Camera">
+      <button class="control" id="cameraBtn2">📹</button>
 
-        📹
+      <button class="control" id="micBtn2">🎙️</button>
 
-      </button>
+      <button class="control" id="mirrorBtn2">🔄</button>
 
+      <button class="control" id="bgBtn2">🖼️</button>
 
-      <button
-        class="control"
-        onclick="toggleMic()"
-        title="Microphone">
-
-        🎙️
-
-      </button>
-
-
-      <button
-        class="control"
-        onclick="toggleMirror()"
-        title="Mirror">
-
-        🔄
-
-      </button>
-
-
-      <button
-        class="control"
-        onclick="changeBackground()"
-        title="Background">
-
-        🖼️
-
-      </button>
-
-
-      <button
-        class="control end"
-        onclick="endCall()"
-        title="End">
-
-        📞
-
-      </button>
+      <button class="control end" id="endBtn2">📞</button>
 
     </div>
 
-
-    <!-- INVITE PANEL -->
-
     <div class="panel">
 
-      <h3>
-        🔗 Family / Guest Invite
-      </h3>
-
+      <h3>🔗 Private Family Invite</h3>
 
       <div class="inviteRow">
 
         <input
           id="inviteLink"
-          class="inviteInput"
           readonly
           placeholder="Create Invite दबाएँ">
 
-
-        <button
-          class="actionBtn"
-          onclick="createInvite()">
-
-          Create Invite
-
+        <button class="action" id="createInviteBtn">
+          Create
         </button>
 
-
-        <button
-          class="actionBtn"
-          onclick="copyInvite()">
-
+        <button class="action" id="copyBtn">
           Copy
-
         </button>
 
       </div>
 
-
-      <div
-        class="message"
-        id="inviteMessage">
-
-        Invite बनाने के लिए ऊपर button दबाएँ।
-
+      <div id="inviteMsg" class="msg">
+        Guest को भेजने के लिए Secure Invite बनाएँ।
       </div>
 
     </div>
-
 
   </main>
 
 </div>
 
+<!-- INCOMING CALL -->
 
-<!-- ==================================================
-     FIREBASE
-================================================== -->
+<div id="incoming" class="incoming">
+
+  <h2>📞 Incoming Call</h2>
+
+  <p>
+    <b id="callerName">Family Member</b>
+    आपको video call कर रहे हैं।
+  </p>
+
+  <button class="accept" id="acceptBtn">
+    ✅ Accept
+  </button>
+
+  <button class="reject" id="rejectBtn">
+    ❌ Reject
+  </button>
+
+</div>
 
 <script type="module">
 
-
-/* ==============================
-   FIREBASE IMPORT
-============================== */
+/* ===============================
+   FIREBASE
+================================ */
 
 import {
   initializeApp
-}
-from
+} from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
 
 import {
   getAuth,
   onAuthStateChanged,
   signOut
-}
-from
+} from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
 
 import {
   getFirestore,
   doc,
   setDoc,
+  getDoc,
+  updateDoc,
+  onSnapshot,
   serverTimestamp
-}
-from
+} from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-/* ==============================
+
+/* ===============================
    FIREBASE CONFIG
-============================== */
+================================ */
 
 const firebaseConfig = {
-            apiKey: "AIzaSyAVHl9WBOHEolcyduGoeLZGPHZnwsQEKfc",
-            authDomain: "family-connect-19bac.firebaseapp.com",
-            projectId: "family-connect-19bac",
-            storageBucket: "family-connect-19bac.firebasestorage.app",
-            messagingSenderId: "728596384464",
-            appId: "1:728596384464:web:e1394868b824e1911dacd5"
-        };
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.firebasestorage.app",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 
 
-/* ==============================
+/* ===============================
    INITIALIZE
-============================== */
+================================ */
 
-const app =
-  initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const auth =
-  getAuth(app);
+const auth = getAuth(app);
 
-const db =
-  getFirestore(app);
+const db = getFirestore(app);
 
 
-/* ==============================
-   GLOBAL VARIABLES
-============================== */
+/* ===============================
+   VARIABLES
+================================ */
 
 let currentUser = null;
 
 let localStream = null;
 
-let mirrored = false;
+let currentInvite = null;
+
+let currentCall = null;
+
+let pendingGuest = null;
+
+let mirror = false;
+
+let bgIndex = 0;
 
 
-/* ==============================
-   AUTH CHECK
-============================== */
+/* ===============================
+   DOM
+================================ */
+
+const status =
+document.getElementById("status");
+
+const localVideo =
+document.getElementById("localVideo");
+
+const videoText =
+document.getElementById("videoText");
+
+const incoming =
+document.getElementById("incoming");
+
+const callerName =
+document.getElementById("callerName");
+
+
+/* ===============================
+   AUTH
+================================ */
 
 onAuthStateChanged(
   auth,
-  function(user){
+  user => {
 
     if(!user){
 
@@ -600,84 +440,43 @@ onAuthStateChanged(
 
     }
 
-
     currentUser = user;
 
-
-    document
-      .getElementById("adminStatus")
-      .textContent =
+    status.textContent =
       "🟢 Admin Online";
 
   }
 );
 
 
-/* ==============================
-   LOGOUT
-============================== */
-
-window.logoutAdmin =
-async function(){
-
-  try{
-
-    await signOut(auth);
-
-    window.location.href =
-      "index.html";
-
-  }
-
-  catch(error){
-
-    console.error(error);
-
-  }
-
-};
-
-
-/* ==============================
+/* ===============================
    CAMERA
-============================== */
+================================ */
 
-window.startCamera =
-async function(){
+async function startCamera(){
 
   try{
 
-    if(!localStream){
+    if(localStream) return;
 
-      localStream =
-        await navigator.mediaDevices
-          .getUserMedia({
+    localStream =
+      await navigator
+      .mediaDevices
+      .getUserMedia({
 
-            video:true,
+        video:true,
 
-            audio:true
+        audio:true
 
-          });
+      });
 
-    }
-
-
-    const video =
-      document
-        .getElementById("localVideo");
-
-
-    video.srcObject =
+    localVideo.srcObject =
       localStream;
 
-
-    video.style.display =
+    localVideo.style.display =
       "block";
 
-
-    document
-      .getElementById("videoMessage")
-      .style.display =
+    videoText.style.display =
       "none";
 
   }
@@ -692,330 +491,450 @@ async function(){
 
   }
 
-};
+}
 
 
-/* ==============================
-   MICROPHONE
-============================== */
+/* ===============================
+   MIC
+================================ */
 
-window.toggleMic =
-function(){
+function toggleMic(){
 
-  if(!localStream){
+  if(!localStream) return;
 
-    startCamera();
+  localStream
+  .getAudioTracks()
+  .forEach(track => {
+
+    track.enabled =
+      !track.enabled;
+
+  });
+
+}
+
+
+/* ===============================
+   CAMERA
+================================ */
+
+function toggleCamera(){
+
+  if(!localStream) return;
+
+  localStream
+  .getVideoTracks()
+  .forEach(track => {
+
+    track.enabled =
+      !track.enabled;
+
+  });
+
+}
+
+
+/* ===============================
+   MIRROR
+================================ */
+
+function toggleMirror(){
+
+  mirror = !mirror;
+
+  localVideo.style.transform =
+    mirror
+    ? "scaleX(-1)"
+    : "scaleX(1)";
+
+}
+
+
+/* ===============================
+   BACKGROUND
+================================ */
+
+function changeBackground(){
+
+  const backgrounds = [
+    "#000",
+    "#172554",
+    "#064e3b",
+    "#3f0764",
+    "#431407"
+  ];
+
+  bgIndex++;
+
+  if(bgIndex >= backgrounds.length)
+    bgIndex = 0;
+
+  document
+  .querySelector(".videoArea")
+  .style.background =
+    backgrounds[bgIndex];
+
+}
+
+
+/* ===============================
+   CREATE INVITE
+================================ */
+
+async function createInvite(){
+
+  if(!currentUser){
+
+    alert("Admin authentication wait करें।");
 
     return;
 
   }
 
+  const token =
+    crypto.randomUUID();
 
-  const tracks =
-    localStream.getAudioTracks();
+  const inviteRef =
+    doc(
+      db,
+      "invites",
+      token
+    );
+
+  await setDoc(
+    inviteRef,
+    {
+      token:token,
+
+      adminUid:
+        currentUser.uid,
+
+      active:true,
+
+      status:"waiting",
+
+      createdAt:
+        serverTimestamp()
+    }
+  );
+
+  currentInvite = token;
+
+  const url =
+    window.location.origin +
+    window.location.pathname
+    .replace(
+      "admin.html",
+      "guest.html"
+    ) +
+    "?invite=" +
+    encodeURIComponent(token);
+
+  document
+  .getElementById("inviteLink")
+  .value = url;
+
+  document
+  .getElementById("inviteMsg")
+  .textContent =
+    "✅ Secure Invite तैयार है। Family को भेजें।";
+
+  listenForGuest(token);
+
+}
 
 
-  tracks.forEach(
-    function(track){
+/* ===============================
+   LISTEN FOR GUEST
+================================ */
 
-      track.enabled =
-        !track.enabled;
+function listenForGuest(token){
+
+  const inviteRef =
+    doc(
+      db,
+      "invites",
+      token
+    );
+
+  onSnapshot(
+    inviteRef,
+    snapshot => {
+
+      if(!snapshot.exists())
+        return;
+
+      const data =
+        snapshot.data();
+
+      if(
+        data.status === "calling"
+      ){
+
+        pendingGuest = data;
+
+        callerName.textContent =
+          data.guestName ||
+          "Family Member";
+
+        incoming.style.display =
+          "block";
+
+      }
+
+      if(
+        data.status === "ended"
+      ){
+
+        incoming.style.display =
+          "none";
+
+      }
 
     }
   );
 
-};
+}
 
 
-/* ==============================
-   MIRROR
-============================== */
+/* ===============================
+   ACCEPT
+================================ */
 
-window.toggleMirror =
-function(){
+async function acceptCall(){
 
-  const video =
-    document
-      .getElementById("localVideo");
-
-
-  mirrored =
-    !mirrored;
-
-
-  video.style.transform =
-    mirrored
-      ? "scaleX(-1)"
-      : "scaleX(1)";
-
-};
-
-
-/* ==============================
-   BACKGROUND
-============================== */
-
-window.changeBackground =
-function(){
-
-  const backgrounds = [
-
-    "#000000",
-
-    "#172554",
-
-    "#064e3b",
-
-    "#3f1d2e",
-
-    "#27272a"
-
-  ];
-
-
-  const videoArea =
-    document
-      .querySelector(".videoArea");
-
-
-  const current =
-    videoArea.dataset.bg || "0";
-
-
-  let index =
-    parseInt(current) + 1;
-
-
-  if(index >= backgrounds.length){
-
-    index = 0;
-
-  }
-
-
-  videoArea.style.background =
-    backgrounds[index];
-
-
-  videoArea.dataset.bg =
-    index;
-
-};
-
-
-/* ==============================
-   CREATE INVITE
-============================== */
-
-window.createInvite =
-async function(){
-
-  if(!currentUser){
-
-    alert(
-      "Admin authentication wait करें।"
-    );
-
+  if(!currentInvite)
     return;
 
-  }
+  incoming.style.display =
+    "none";
+
+  await startCamera();
+
+  const inviteRef =
+    doc(
+      db,
+      "invites",
+      currentInvite
+    );
+
+  await updateDoc(
+    inviteRef,
+    {
+      status:"accepted"
+    }
+  );
+
+}
 
 
-  const message =
-    document
-      .getElementById("inviteMessage");
+/* ===============================
+   REJECT
+================================ */
+
+async function rejectCall(){
+
+  incoming.style.display =
+    "none";
+
+  if(!currentInvite)
+    return;
+
+  await updateDoc(
+    doc(
+      db,
+      "invites",
+      currentInvite
+    ),
+    {
+      status:"rejected"
+    }
+  );
+
+}
 
 
-  message.textContent =
-    "⏳ Secure invite बनाया जा रहा है...";
+/* ===============================
+   COPY
+================================ */
 
-
-  try{
-
-    /*
-    Random invite token
-    */
-
-    const token =
-      crypto.randomUUID();
-
-
-    /*
-    Firestore invite document
-    */
-
-   await setDoc(
-  doc(
-    db,
-    "invites",
-    token
-  ),
-  {
-    token: token,
-    adminUid: currentUser.uid,
-    createdAt: serverTimestamp(),
-    active: true
-  }
-);
-
-    /*
-    Guest URL
-
-    अगले step में guest.html
-    बनाया जाएगा।
-    */
-
-    const guestUrl =
-      window.location.origin +
-      window.location.pathname
-        .replace(
-          "admin.html",
-          "guest.html"
-        ) +
-      "?invite=" +
-      encodeURIComponent(token);
-
-
-    document
-      .getElementById("inviteLink")
-      .value =
-      guestUrl;
-
-
-    message.textContent =
-      "✅ Invite तैयार है। अब Copy करके Family को भेजें।";
-
-
-  }
-
-  catch(error){
-
-    console.error(error);
-
-
-    message.textContent =
-      "❌ Invite बनाने में समस्या: " +
-      error.message;
-
-  }
-
-};
-
-
-/* ==============================
-   COPY INVITE
-============================== */
-
-window.copyInvite =
-async function(){
+async function copyInvite(){
 
   const input =
-    document
-      .getElementById("inviteLink");
-
+    document.getElementById(
+      "inviteLink"
+    );
 
   if(!input.value){
 
-    alert(
-      "पहले Create Invite दबाएँ।"
-    );
+    alert("पहले Create Invite करें।");
 
     return;
 
   }
 
-
   try{
 
-    await navigator.clipboard
+    await navigator
+      .clipboard
       .writeText(
         input.value
       );
 
-
     document
-      .getElementById("inviteMessage")
-      .textContent =
-      "✅ Invite Link copied!";
+    .getElementById(
+      "inviteMsg"
+    )
+    .textContent =
+      "✅ Link copied!";
 
   }
 
-  catch(error){
+  catch{
 
     input.select();
 
-    document
-      .execCommand(
-        "copy"
-      );
-
-
-    document
-      .getElementById("inviteMessage")
-      .textContent =
-      "✅ Invite Link copied!";
+    document.execCommand(
+      "copy"
+    );
 
   }
 
-};
+}
 
 
-/* ==============================
+/* ===============================
    END CALL
-============================== */
+================================ */
 
-window.endCall =
-function(){
+async function endCall(){
 
   if(localStream){
 
     localStream
-      .getTracks()
-      .forEach(
-        function(track){
+    .getTracks()
+    .forEach(
+      track =>
+      track.stop()
+    );
 
-          track.stop();
-
-        }
-      );
-
-
-    localStream =
-      null;
+    localStream = null;
 
   }
 
-
-  const video =
-    document
-      .getElementById("localVideo");
-
-
-  video.srcObject =
+  localVideo.srcObject =
     null;
 
-
-  video.style.display =
+  localVideo.style.display =
     "none";
 
-
-  document
-    .getElementById("videoMessage")
-    .style.display =
+  videoText.style.display =
     "flex";
 
+  if(currentInvite){
 
-  document
-    .getElementById("videoMessage")
-    .textContent =
-    "📹 Camera बंद है";
+    try{
 
-};
+      await updateDoc(
+        doc(
+          db,
+          "invites",
+          currentInvite
+        ),
+        {
+          status:"ended"
+        }
+      );
 
+    }
+    catch(e){
+      console.error(e);
+    }
+
+  }
+
+}
+
+
+/* ===============================
+   LOGOUT
+================================ */
+
+async function logout(){
+
+  await signOut(auth);
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+/* ===============================
+   EVENTS
+================================ */
+
+document
+.getElementById("cameraBtn")
+.onclick = startCamera;
+
+document
+.getElementById("cameraBtn2")
+.onclick = startCamera;
+
+document
+.getElementById("micBtn")
+.onclick = toggleMic;
+
+document
+.getElementById("micBtn2")
+.onclick = toggleMic;
+
+document
+.getElementById("mirrorBtn")
+.onclick = toggleMirror;
+
+document
+.getElementById("mirrorBtn2")
+.onclick = toggleMirror;
+
+document
+.getElementById("bgBtn")
+.onclick = changeBackground;
+
+document
+.getElementById("bgBtn2")
+.onclick = changeBackground;
+
+document
+.getElementById("endBtn")
+.onclick = endCall;
+
+document
+.getElementById("endBtn2")
+.onclick = endCall;
+
+document
+.getElementById("createInviteBtn")
+.onclick = createInvite;
+
+document
+.getElementById("copyBtn")
+.onclick = copyInvite;
+
+document
+.getElementById("acceptBtn")
+.onclick = acceptCall;
+
+document
+.getElementById("rejectBtn")
+.onclick = rejectCall;
+
+document
+.getElementById("logoutBtn")
+.onclick = logout;
 
 </script>
 
-
 </body>
-
 </html>
