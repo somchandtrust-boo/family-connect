@@ -2,686 +2,278 @@
 <html lang="hi">
 
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+  <title>Location Tracker</title>
 
-  <title>Family Connect - Admin Login</title>
-<link rel="icon" href="data:,">
   <style>
-
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      margin: 0;
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(
-          circle at top,
-          #172554 0%,
-          #020617 55%,
-          #000 100%
-        );
-      color: white;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      padding: 20px;
     }
 
-    .loginBox {
-      width: min(410px, 92%);
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid #334155;
-      border-radius: 22px;
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      border-radius: 20px;
       padding: 30px;
-      box-shadow:
-        0 25px 80px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     }
 
     .logo {
       text-align: center;
       font-size: 55px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
     h1 {
       text-align: center;
-      margin: 5px 0;
-      font-size: 28px;
+      color: #111827;
+      margin-bottom: 8px;
     }
 
     .subtitle {
       text-align: center;
-      color: #94a3b8;
-      font-size: 14px;
-      margin-bottom: 28px;
+      color: #6b7280;
+      margin-bottom: 25px;
+      line-height: 1.5;
     }
 
-    label {
-      display: block;
-      margin: 14px 0 7px;
-      font-size: 13px;
-      color: #cbd5e1;
-    }
-
-    input {
+    .btn {
       width: 100%;
-      height: 50px;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      background: #020617;
-      color: white;
-      padding: 0 14px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59,130,246,.15);
-    }
-
-    .passwordRow {
-      position: relative;
-    }
-
-    .showPassword {
-      position: absolute;
-      right: 8px;
-      top: 8px;
-      height: 34px;
-      border: 0;
-      border-radius: 7px;
-      background: #1e293b;
-      color: white;
-      cursor: pointer;
-      padding: 0 10px;
-    }
-
-    .loginBtn {
-      width: 100%;
-      height: 50px;
-      border: 0;
-      border-radius: 10px;
-      margin-top: 22px;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
       background: #2563eb;
       color: white;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: bold;
       cursor: pointer;
-      transition: .2s;
+      margin-bottom: 20px;
     }
 
-    .loginBtn:hover {
+    .btn:hover {
       background: #1d4ed8;
     }
 
-    .loginBtn:disabled {
-      opacity: .6;
-      cursor: not-allowed;
+    .result {
+      display: none;
+      margin-top: 10px;
     }
 
-    .message {
-      min-height: 22px;
+    .label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #374151;
+    }
+
+    .link-box {
+      display: flex;
+      gap: 8px;
+    }
+
+    #trackingLink {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      background: #f9fafb;
+    }
+
+    .copy-btn {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      background: #16a34a;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      background: #15803d;
+    }
+
+    .session {
       margin-top: 15px;
-      text-align: center;
-      font-size: 13px;
+      padding: 12px;
+      background: #eff6ff;
+      border-radius: 10px;
+      color: #1e40af;
+      font-size: 14px;
+      word-break: break-all;
     }
 
-    .security {
+    .admin-btn {
+      display: block;
       text-align: center;
-      margin-top: 22px;
-      color: #64748b;
-      font-size: 11px;
+      text-decoration: none;
+      color: #2563eb;
+      margin-top: 20px;
+      font-weight: bold;
     }
 
-    .connection {
+    .status {
       text-align: center;
-      margin-top: 8px;
-      font-size: 11px;
-      color: #64748b;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #16a34a;
+      display: none;
     }
-
   </style>
-
 </head>
-
 
 <body>
 
+  <div class="container">
 
-  <div class="loginBox">
+    <div class="logo">📍</div>
 
-    <div class="logo">
-      👑
-    </div>
+    <h1>Location Tracker</h1>
 
-    <h1>
-      Admin Login
-    </h1>
+    <p class="subtitle">
+      एक सुरक्षित Tracking Link बनाएं और व्यक्ति से
+      उसकी Location Share करवाएं।
+    </p>
 
-    <div class="subtitle">
-      Family Connect Control Center
-    </div>
-
-
-    <!-- EMAIL -->
-
-    <label for="email">
-      Admin Email
-    </label>
-
-    <input
-      id="email"
-      type="email"
-      placeholder="Enter admin email"
-      autocomplete="username">
-
-
-    <!-- PASSWORD -->
-
-    <label for="password">
-      Password
-    </label>
-
-    <div class="passwordRow">
-
-      <input
-        id="password"
-        type="password"
-        placeholder="Enter password"
-        autocomplete="current-password">
-
-      <button
-        type="button"
-        class="showPassword"
-        id="showPasswordBtn"
-        onclick="togglePassword()">
-
-        👁️
-
-      </button>
-
-    </div>
-
-
-    <!-- LOGIN -->
-
-    <button
-      type="button"
-      class="loginBtn"
-      id="loginBtn"
-      onclick="adminLogin()">
-
-      🔐 Login
-
+    <button class="btn" onclick="createTrackingLink()">
+      🔗 Create Tracking Link
     </button>
 
+    <div class="result" id="result">
 
-    <!-- MESSAGE -->
+      <span class="label">
+        Tracking Link
+      </span>
 
-    <div
-      class="message"
-      id="message">
+      <div class="link-box">
+
+        <input type="text" id="trackingLink" readonly>
+
+        <button class="copy-btn" onclick="copyLink()">
+          Copy
+        </button>
+
+      </div>
+
+      <div class="session">
+        <strong>Tracking ID:</strong>
+        <span id="sessionId"></span>
+      </div>
+
+      <div class="status" id="copyStatus">
+        ✅ Link copied successfully
+      </div>
+
     </div>
 
-
-    <div class="security">
-      🔒 Secure Admin Access
-    </div>
-
-    <div
-      class="connection"
-      id="connection">
-
-      Connecting to Firebase...
-
-    </div>
+    <a href="admin.html" class="admin-btn">
+      👨‍💼 Open Tracking Dashboard
+    </a>
 
   </div>
 
 
-  <!-- ==================================================
-       FIREBASE
-       ONLY ONE FIREBASE SCRIPT
-  ================================================== -->
+  <script>
 
-  <script type="module">
+    function generateTrackingID() {
 
-    /*
-    =====================================================
-    FIREBASE CONFIGURATION
-    =====================================================
+      const randomPart =
+        Math.random()
+          .toString(36)
+          .substring(2, 8)
+          .toUpperCase();
 
-    नीचे अपना Firebase configuration डालें।
+      const timePart =
+        Date.now()
+          .toString(36)
+          .toUpperCase();
 
-    Firebase Console:
-    Project Settings
-    →
-    General
-    →
-    Your apps
-    →
-    Web App
-    →
-    SDK setup and configuration
-    →
-    Config
-    =====================================================
-    */
-
-
-  const firebaseConfig = {
-            apiKey: "AIzaSyAVHl9WBOHEolcyduGoeLZGPHZnwsQEKfc",
-            authDomain: "family-connect-19bac.firebaseapp.com",
-            projectId: "family-connect-19bac",
-            storageBucket: "family-connect-19bac.firebasestorage.app",
-            messagingSenderId: "728596384464",
-            appId: "1:728596384464:web:e1394868b824e1911dacd5"
-        };
-
-
-    /*
-    =====================================================
-    FIREBASE IMPORT
-    =====================================================
-    */
-
-    import {
-      initializeApp
-    } from
-    "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-
-    import {
-      getAuth,
-      signInWithEmailAndPassword
-    } from
-    "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-    /*
-    =====================================================
-    INITIALIZE FIREBASE
-    =====================================================
-    */
-
-    const firebaseApp =
-      initializeApp(firebaseConfig);
-
-
-    const auth =
-      getAuth(firebaseApp);
-
-
-    /*
-    =====================================================
-    FIREBASE CONNECTION
-    =====================================================
-    */
-
-    document
-      .getElementById("connection")
-      .textContent =
-      "🟢 Firebase Ready";
-
-
-    /*
-    =====================================================
-    LOGIN FUNCTION
-    =====================================================
-    */
-
-    window.adminLogin = async function () {
-
-      const email =
-        document
-          .getElementById("email")
-          .value
-          .trim();
-
-
-      const password =
-        document
-          .getElementById("password")
-          .value;
-
-
-      const message =
-        document
-          .getElementById("message");
-
-
-      const button =
-        document
-          .getElementById("loginBtn");
-
-
-      /*
-      -------------------------------
-      VALIDATION
-      -------------------------------
-      */
-
-      if (!email) {
-
-        showMessage(
-          "❌ Admin Email डालें।",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (!password) {
-
-        showMessage(
-          "❌ Password डालें।",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      /*
-      -------------------------------
-      LOGIN START
-      -------------------------------
-      */
-
-      button.disabled = true;
-
-      button.textContent =
-        "⏳ Login हो रहा है...";
-
-
-      showMessage(
-        "कृपया प्रतीक्षा करें...",
-        "normal"
-      );
-
-
-      try {
-
-        /*
-        Firebase Authentication
-        */
-
-        const userCredential =
-          await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-
-
-        const user =
-          userCredential.user;
-
-
-        console.log(
-          "Admin Login Successful"
-        );
-
-
-        console.log(
-          "Admin UID:",
-          user.uid
-        );
-
-
-        showMessage(
-          "✅ Login सफल! Dashboard खोल रहे हैं...",
-          "success"
-        );
-
-
-        /*
-        -------------------------------
-        ADMIN DASHBOARD
-        -------------------------------
-        */
-
-        setTimeout(
-          function () {
-
-            window.location.href =
-              "admin.html";
-
-          },
-          1000
-        );
-
-      }
-
-
-      catch (error) {
-
-        console.error(
-          "Firebase Login Error:",
-          error
-        );
-
-
-        let errorMessage =
-          "Login failed.";
-
-
-        /*
-        -------------------------------
-        FIREBASE ERROR HANDLING
-        -------------------------------
-        */
-
-        switch (error.code) {
-
-          case "auth/invalid-credential":
-
-            errorMessage =
-              "❌ Email या Password गलत है।";
-
-            break;
-
-
-          case "auth/invalid-email":
-
-            errorMessage =
-              "❌ Email सही format में नहीं है।";
-
-            break;
-
-
-          case "auth/user-not-found":
-
-            errorMessage =
-              "❌ यह Admin account Firebase में नहीं मिला।";
-
-            break;
-
-
-          case "auth/wrong-password":
-
-            errorMessage =
-              "❌ Password गलत है।";
-
-            break;
-
-
-          case "auth/user-disabled":
-
-            errorMessage =
-              "❌ यह Admin account disabled है।";
-
-            break;
-
-
-          case "auth/too-many-requests":
-
-            errorMessage =
-              "❌ बहुत ज्यादा Login attempts हुए हैं। थोड़ी देर बाद कोशिश करें।";
-
-            break;
-
-
-          case "auth/network-request-failed":
-
-            errorMessage =
-              "❌ Internet connection check करें।";
-
-            break;
-
-
-          default:
-
-            errorMessage =
-              "❌ " +
-              error.message;
-
-        }
-
-
-        showMessage(
-          errorMessage,
-          "error"
-        );
-
-
-        button.disabled =
-          false;
-
-
-        button.textContent =
-          "🔐 Login";
-
-      }
-
-    };
-
-
-    /*
-    =====================================================
-    MESSAGE FUNCTION
-    =====================================================
-    */
-
-    function showMessage(
-      text,
-      type
-    ) {
-
-      const message =
-        document
-          .getElementById("message");
-
-
-      message.textContent =
-        text;
-
-
-      if (type === "success") {
-
-        message.style.color =
-          "#86efac";
-
-      }
-
-      else if (type === "error") {
-
-        message.style.color =
-          "#f87171";
-
-      }
-
-      else {
-
-        message.style.color =
-          "#94a3b8";
-
-      }
-
+      return randomPart + "-" + timePart;
     }
 
 
-    /*
-    =====================================================
-    PASSWORD SHOW / HIDE
-    =====================================================
-    */
+    function createTrackingLink() {
 
-    window.togglePassword =
-    function () {
+      const trackingID = generateTrackingID();
 
-      const password =
-        document
-          .getElementById("password");
+      const baseURL =
+        window.location.origin +
+        window.location.pathname
+          .replace("index.html", "");
+
+      const trackingLink =
+        baseURL +
+        "share.html?id=" +
+        encodeURIComponent(trackingID);
+
+      document.getElementById("trackingLink").value =
+        trackingLink;
+
+      document.getElementById("sessionId").textContent =
+        trackingID;
+
+      document.getElementById("result").style.display =
+        "block";
+
+      document.getElementById("copyStatus").style.display =
+        "none";
+
+      console.log("Tracking ID:", trackingID);
+      console.log("Tracking Link:", trackingLink);
+    }
 
 
-      const button =
-        document
-          .getElementById("showPasswordBtn");
+    async function copyLink() {
 
+      const input =
+        document.getElementById("trackingLink");
 
-      if (
-        password.type ===
-        "password"
-      ) {
+      const link =
+        input.value;
 
-        password.type =
-          "text";
+      try {
 
-        button.textContent =
-          "🙈";
+        await navigator.clipboard.writeText(link);
 
+        document.getElementById("copyStatus").style.display =
+          "block";
+
+        setTimeout(() => {
+
+          document.getElementById("copyStatus").style.display =
+            "none";
+
+        }, 2500);
+
+      } catch (error) {
+
+        input.select();
+
+        document.execCommand("copy");
+
+        document.getElementById("copyStatus").style.display =
+          "block";
       }
-
-      else {
-
-        password.type =
-          "password";
-
-        button.textContent =
-          "👁️";
-
-      }
-
-    };
-
-
-    /*
-    =====================================================
-    ENTER KEY LOGIN
-    =====================================================
-    */
-
-    document
-      .getElementById("password")
-      .addEventListener(
-        "keydown",
-        function (event) {
-
-          if (
-            event.key === "Enter"
-          ) {
-
-            window.adminLogin();
-
-          }
-
-        }
-      );
+    }
 
   </script>
-
 
 </body>
 
